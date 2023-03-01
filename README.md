@@ -7,6 +7,8 @@
 
 ## C#
 
+- 名前空間名は[パスカルケース](https://wa3.i-3-i.info/word13955.html) (先頭大文字)
+
 - クラス名は[パスカルケース](https://wa3.i-3-i.info/word13955.html) (先頭大文字)
 
 - プロパティ名は[パスカルケース](https://wa3.i-3-i.info/word13955.html) (先頭大文字)
@@ -29,6 +31,7 @@
 
 |  | 命名方法 | 例 |
 | - | - | - |
+| 名前空間 | [パスカルケース](https://wa3.i-3-i.info/word13955.html) | NameSpace |
 | クラス | [パスカルケース](https://wa3.i-3-i.info/word13955.html) | ClassName |
 | プロパティ | [パスカルケース](https://wa3.i-3-i.info/word13955.html) | PropertyName |
 | 変数 | [ローワーキャメルケース](https://e-words.jp/w/%E3%82%AD%E3%83%A3%E3%83%A1%E3%83%AB%E3%82%B1%E3%83%BC%E3%82%B9.html) | memberName |
