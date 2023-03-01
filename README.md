@@ -42,7 +42,6 @@
 | イベント | [パスカルケース](https://wa3.i-3-i.info/word13955.html) & 「On」 + イベント名 | On●● |
 | 関数 | [パスカルケース](https://wa3.i-3-i.info/word13955.html) | MethodName |
 
-
 ## Unity
 
 - アセットやファイル、オブジェクトなどは全てパスカルケース
@@ -73,3 +72,29 @@
 | 機能作成 | 「feature/」 + ブランチ名 | feature/branch_name |
 | 機能修正 | 「hotfix/」 + ブランチ名 | hotfix/branch_name |
 | 機能削除 | 「remove/」 + ブランチ名 | remove/branch_name |
+
+# region 規則
+
+```shell
+public class AnyName
+{
+    #region Properties
+        // プロパティ
+    #region Inspector Variables
+        // unity inpectorに表示したいもの
+    #region Member Variables
+        // プライベートなメンバー変数
+    #region Constants
+        // 定数
+    #region Events
+        //  System.Action, System.Func などのデリゲートやコールバック関数
+    #region Unity Methods
+        //  Start, UpdateなどのUnityのイベント関数
+    #region Enums
+        // 列挙型
+    #region Public Methods
+        //　自作のPublicな関数
+    #region Private Methods
+        // 自作のPrivateな関数
+}
+```
