@@ -76,7 +76,7 @@
 
 - 機能を作成するブランチであれば接頭辞に「feature/」を付けてください
 
-- 機能の修正等は接頭辞に「hotfix/」を付けてください
+- 機能の修正等は接頭辞に「fix/」を付けてください
 
 - 削除を行う際は接頭辞に「remove/」を付けてください
 
@@ -84,7 +84,7 @@
 | - | - | - |
 | ブランチ | スネークケース | branch_name |
 | 機能作成 | 「feature/」 + ブランチ名 | feature/branch_name |
-| 機能修正 | 「hotfix/」 + ブランチ名 | hotfix/branch_name |
+| 機能修正 | 「hotfix/」 + ブランチ名 | fix/branch_name |
 | 機能削除 | 「remove/」 + ブランチ名 | remove/branch_name |
 
 # region 規則
