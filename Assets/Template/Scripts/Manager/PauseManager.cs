@@ -24,7 +24,7 @@ namespace Template.Manager
 
         #endregion
 
-        #region Unity Method
+        #region Unity Methods
 
         void Update()
         {
