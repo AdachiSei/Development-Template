@@ -1,7 +1,21 @@
 # DevelopmentTemplate
 
 長期開発用テンプレート
-制作中
+
+## 開発環境
+
+| エンジン | バージョン  |
+| ---------- | ----------- |
+| Unity      | [こちらを参照して下さい](ProjectSettings/ProjectVersion.txt#L1) |
+
+## 導入済みアセット
+
+### UniTask
+> https://github.com/Cysharp/UniTask
+### UniTask
+> https://github.com/neuecc/UniRx
+### DOTween
+> https://assetstore.unity.com/packages/tools/animation/dotween-hotween-v2-27676?locale=ja-JP
 
 # 命名規則
 
@@ -84,7 +98,7 @@
 | - | - | - |
 | ブランチ | スネークケース | branch_name |
 | 機能作成 | 「feature/」 + ブランチ名 | feature/branch_name |
-| 機能修正 | 「hotfix/」 + ブランチ名 | fix/branch_name |
+| 機能修正 | 「fix/」 + ブランチ名 | fix/branch_name |
 | 機能削除 | 「remove/」 + ブランチ名 | remove/branch_name |
 
 # region 規則
