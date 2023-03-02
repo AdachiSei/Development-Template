@@ -9,6 +9,8 @@ namespace Template.Extension
     /// </summary>
     public static class RigitbodyExtensions
     {
+        #region Constraints Methods
+
         public static Rigidbody SetConstraints(this Rigidbody rb, params RigidbodyConstraints[] constraints)
         {
             var rigidbodyConstraints = RigidbodyConstraints.None;
@@ -27,5 +29,7 @@ namespace Template.Extension
             rb.constraints = rigidbodyConstraints;
             return rb;
         }
+
+        #endregion
     }
 }
