@@ -110,7 +110,7 @@ public class AnyName
     #region Properties
         // プロパティ
     #region Inspector Variables
-        // unity inpectorに表示したいもの
+        // unity inspectorに表示したいもの
     #region Member Variables
         // プライベートなメンバー変数
     #region Constants
