@@ -10,11 +10,11 @@ using System.Linq;
 namespace TemplateEditor.Processor
 {
     /// <summary>
-    /// インプット名を定数で管理するクラスを作成するスクリプト
+    /// インプット名を定数で管理する構造体を作成するエディター拡張
     /// </summary>
     public class InputNameCreator : AssetPostprocessor
     {
-        #region Private Member
+        #region Member Variables
 
         /// <summary>
         /// ファイル名
@@ -24,7 +24,7 @@ namespace TemplateEditor.Processor
 
         #endregion
 
-        #region Constant
+        #region Constants
 
         /// <summary>
         /// 作成したスクリプトを保存するパス
@@ -33,14 +33,12 @@ namespace TemplateEditor.Processor
 
         #endregion
 
-        #region Unity Method
+        #region Unity Methods
 
         private static void OnPostprocessAllAssets
             (string[] importedAssets, string[] deletedAssets,
-                string[] movedAssets, string[] movedFromPath)
-        {
+                string[] movedAssets, string[] movedFromPath) =>
             CreateScriptInputName(importedAssets);
-        }
 
         #endregion
 
@@ -79,19 +77,8 @@ namespace TemplateEditor.Processor
                         .FindProperty("m_Axes")
                         .arraySize;
 
-            StringBuilder builder = new StringBuilder();
+            var inputNames = new List<string>();
 
-            builder.AppendLine("namespace Template.Constant");
-            builder.AppendLine("{");
-            builder.Append("\t").AppendLine("/// <summary>");
-            builder.Append("\t").AppendLine("/// インプット名を定数で管理するクラス");
-            builder.Append("\t").AppendLine("/// </summary>");
-            builder.Append("\t").AppendFormat("public struct {0}", FILENAME).AppendLine();
-            builder.Append("\t").AppendLine("{");
-            builder.Append("\t").Append("\t").AppendLine("#region Constants");
-            builder.AppendLine("\t");
-
-            List<string> inputNames = new();
             //全部取ってくる
             for (int i = 0; i < axesSize; ++i)
             {
@@ -104,34 +91,59 @@ namespace TemplateEditor.Processor
                     inputNames.Add(inputName);
                 }
             }
-            //重複する要素を消す
-            inputNames = new(inputNames.Distinct());
-            foreach (var name in inputNames)
+
+            var builder = new StringBuilder();
+
+            //Script
             {
-                builder
-                    .Append("\t")
-                    .Append("\t")
-                    .AppendFormat
-                        (@"  public const string {0} = ""{1}"";",
-                            name.Replace(" ", "_").ToUpper(),
-                            name)
-                    .AppendLine();
+                //NameSpace
+                builder.AppendLine("namespace Template.Constant");
+                builder.AppendLine("{");
+                //Struct
+                {
+                    builder.Append("\t").AppendLine("/// <summary>");
+                    builder.Append("\t").AppendLine("/// インプット名を定数で管理する構造体");
+                    builder.Append("\t").AppendLine("/// </summary>");
+                    builder.Append("\t").AppendFormat("public struct {0}", FILENAME).AppendLine();
+                    builder.Append("\t").AppendLine("{");
+
+                    //Constants
+                    {
+                        builder.Append("\t").Append("\t").AppendLine("#region Constants");
+                        builder.AppendLine("\t");
+
+                        //重複する要素を消す
+                        inputNames = new(inputNames.Distinct());
+                        foreach (var name in inputNames)
+                        {
+                            var constantName = 
+                            builder
+                                .Append("\t")
+                                .Append("\t")
+                                .AppendFormat
+                                    (@"  public const string {0} = ""{1}"";",
+                                        name.Replace(" ", "_").ToUpper(),
+                                        name)
+                                .AppendLine();
+                        }
+
+                        builder.AppendLine("\t");
+                        builder.Append("\t").Append("\t").AppendLine("#endregion");
+                    }
+
+                    builder.Append("\t").AppendLine("}");
+                }
+
+                builder.AppendLine("}");
             }
 
-            builder.AppendLine("\t");
-            builder.Append("\t").Append("\t").AppendLine("#endregion");
-            builder.Append("\t").AppendLine("}");
-            builder.AppendLine("}");
+            var directoryName = Path.GetDirectoryName(EXPORT_PATH);
 
-            string directoryName = Path.GetDirectoryName(EXPORT_PATH);
-            if (!Directory.Exists(directoryName))
-            {
-                Directory.CreateDirectory(directoryName);
-            }
+            if (!Directory.Exists(directoryName)) Directory.CreateDirectory(directoryName);
 
             File.WriteAllText(EXPORT_PATH, builder.ToString(), Encoding.UTF8);
             AssetDatabase.Refresh(ImportAssetOptions.ImportRecursive);
-            Debug.Log("InputNamesを作成完了");
+            Debug.Log("InputNameを作成完了");
         }
 
         #endregion

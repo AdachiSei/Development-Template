@@ -6,7 +6,7 @@ using UnityEngine;
 namespace TemplateEditor.Tools
 {
 	/// <summary>
-	/// ビルドシーン名を定数で管理するクラスを作成するスクリプト
+	/// ビルドシーン名を定数で管理する構造体を作成するエディター拡張
 	/// </summary>
 	public static class SceneNameCreator
 	{
@@ -31,7 +31,7 @@ namespace TemplateEditor.Tools
         #region Private Methods
 
         /// <summary>
-        /// シーンのファイル名を定数で管理するクラスを作成します
+        /// シーンのファイル名を定数で管理する構造体を作成します
         /// </summary>
         [MenuItem(COMMAND_NAME + " &s")]
 		private static void Create()
@@ -42,7 +42,7 @@ namespace TemplateEditor.Tools
 		}
 
 		/// <summary>
-		/// シーンのファイル名を定数で管理するクラスを作成できるかどうかを取得します
+		/// シーンのファイル名を定数で管理する構造体を作成できるかどうかを取得します
 		/// </summary>
 		[MenuItem(COMMAND_NAME, true)]
 		private static bool CanCreate()
@@ -60,40 +60,52 @@ namespace TemplateEditor.Tools
 		{
 			var builder = new StringBuilder();
 
-			builder.AppendLine("namespace Template.Constant");
-			builder.AppendLine("{");
-			builder.Append("\t").AppendLine("/// <summary>");
-			builder.Append("\t").AppendLine("/// シーン名を定数で管理するクラス");
-			builder.Append("\t").AppendLine("/// </summary>");
-			builder.Append("\t").AppendFormat("public struct {0}", FILENAME).AppendLine();
-			builder.Append("\t").AppendLine("{");
-			builder.Append("\t").Append("\t").AppendLine("#region Constants");
-			builder.AppendLine("\t");
-
-			//BuildSetingsに入っているSceneの名前を全てとってくる
-			foreach (var scene in EditorBuildSettings.scenes)
+			//Script
 			{
-				var name = Path.GetFileNameWithoutExtension(scene.path);
-				builder
-					.Append("\t")
-					.Append("\t")
-					.AppendFormat
-						(@"  public const string {0} = ""{1}"";",
-							name.Replace(" ", "_").ToUpper(),
-							name)
-					.AppendLine();
+				//NameSpace
+				builder.AppendLine("namespace Template.Constant");
+				builder.AppendLine("{");
+
+				//Struct
+				{
+					builder.Append("\t").AppendLine("/// <summary>");
+					builder.Append("\t").AppendLine("/// シーン名を定数で管理する構造体");
+					builder.Append("\t").AppendLine("/// </summary>");
+					builder.Append("\t").AppendFormat("public struct {0}", FILENAME).AppendLine();
+					builder.Append("\t").AppendLine("{");
+
+					//Constants
+					{
+						builder.Append("\t").Append("\t").AppendLine("#region Constants");
+						builder.AppendLine("\t");
+
+						//BuildSetingsに入っているSceneの名前を全てとってくる
+						foreach (var scene in EditorBuildSettings.scenes)
+						{
+							var name = Path.GetFileNameWithoutExtension(scene.path);
+							builder
+								.Append("\t")
+								.Append("\t")
+								.AppendFormat
+									(@"  public const string {0} = ""{1}"";",
+										name.Replace(" ", "_").ToUpper(),
+										name)
+								.AppendLine();
+						}
+
+						builder.AppendLine("\t");
+						builder.Append("\t").Append("\t").AppendLine("#endregion");
+					}
+
+					builder.Append("\t").AppendLine("}");
+				}
+
+				builder.AppendLine("}");
 			}
 
-			builder.AppendLine("\t");
-			builder.Append("\t").Append("\t").AppendLine("#endregion");
-			builder.Append("\t").AppendLine("}");
-			builder.AppendLine("}");
+			var directoryName = Path.GetDirectoryName(EXPORT_PATH);
 
-			string directoryName = Path.GetDirectoryName(EXPORT_PATH);
-			if (!Directory.Exists(directoryName))
-			{
-				Directory.CreateDirectory(directoryName);
-			}
+			if (!Directory.Exists(directoryName)) Directory.CreateDirectory(directoryName);
 
 			File.WriteAllText(EXPORT_PATH, builder.ToString(), Encoding.UTF8);
 			AssetDatabase.Refresh(ImportAssetOptions.ImportRecursive);

@@ -33,15 +33,13 @@ namespace TemplateEditor.Window
 
         private void OnGUI()
         {
-            // OnFocus() より前に呼ばれる対策(あるのかな？)
+            // OnFocus() より前に呼ばれる対策
             var isExistingPaths =
                 _buildScenePaths == null && _othersScenePaths == null;
             if (isExistingPaths) Reload();
 
-            // この波括弧は見やすくするためだけにあるよ.
             EditorGUI.BeginDisabledGroup(EditorApplication.isPlaying);
             {
-                // この波括弧も見やすくするためだけにあるよ.
                 _scrollPosition =
                     EditorGUILayout.BeginScrollView(_scrollPosition);
                 {
@@ -83,12 +81,9 @@ namespace TemplateEditor.Window
 
             _othersScenePaths =
                 AssetDatabase
-                    .FindAssets//guids
-                        ("t:Scene", new string[] { "Assets" })
-                    .Select//paths
-                        (guid => AssetDatabase.GUIDToAssetPath(guid))
-                    .Where
-                        (path => !_buildScenePaths
+                    .FindAssets("t:Scene", new string[] { "Assets" })
+                    .Select(guid => AssetDatabase.GUIDToAssetPath(guid))
+                    .Where(path => !_buildScenePaths
                                     .Any(buildPath => buildPath == path))
                     .ToArray();
         }
@@ -104,6 +99,7 @@ namespace TemplateEditor.Window
                 {
                     var name =
                         Path.GetFileNameWithoutExtension(path);
+
                     if (GUILayout.Button(name))
                     {
                         var isSaving =
