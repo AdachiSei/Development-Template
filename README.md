@@ -1,4 +1,4 @@
-# DevelopmentTemplate
+# Development Template
 
 長期開発用テンプレート
 製作中
