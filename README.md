@@ -15,7 +15,7 @@
 
 ### UniTask
 > https://github.com/Cysharp/UniTask
-### UniTask
+### UniRx
 > https://github.com/neuecc/UniRx
 ### DOTween
 > https://assetstore.unity.com/packages/tools/animation/dotween-hotween-v2-27676?locale=ja-JP
