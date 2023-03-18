@@ -69,7 +69,9 @@ namespace Template.Manager
 
         public async UniTask<float> FadeOut()
         {
-            await _loadingPanel?.DOFade(MAX_ALPFA_VALUE, _fadeTime).AsyncWaitForCompletion();
+            if (_loadingPanel != null)
+            await _loadingPanel.DOFade(MAX_ALPFA_VALUE, _fadeTime).AsyncWaitForCompletion();
+
             _loadingPanel?.DOKill();
 
             _loadingImage?.gameObject.SetActive(true);
