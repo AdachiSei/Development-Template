@@ -1,7 +1,9 @@
-# DevelopmentTemplate
+# Development Template
 
 長期開発用テンプレート
 製作中
+
+ご自由に使用して下さい
 
 ## 開発環境
 
@@ -13,7 +15,7 @@
 
 ### UniTask
 > https://github.com/Cysharp/UniTask
-### UniTask
+### UniRx
 > https://github.com/neuecc/UniRx
 ### DOTween
 > https://assetstore.unity.com/packages/tools/animation/dotween-hotween-v2-27676?locale=ja-JP
