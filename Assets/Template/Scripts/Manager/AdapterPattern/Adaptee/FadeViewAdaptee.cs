@@ -1,17 +1,16 @@
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
-using Template.Supporter;
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Template.Manager
+namespace Template.Adapter
 {
     /// <summary>
-    /// フェードを管理するマネージャー
+    /// フェードを管理するViewの機能を持つアダプティー
     /// </summary>
-    [RequireComponent(typeof(SceneLoaderSupporter))]
-    [RequireComponent(typeof(DontDestroy))]
-    public class FadeManager : MonoBehaviour
+    public abstract class FadeViewAdaptee : MonoBehaviour
     {
         #region Inspector Variables
 
@@ -27,21 +26,18 @@ namespace Template.Manager
         [Header("フェードするまでの時間")]
         private float _fadeTime = 1f;
 
-        [SerializeField]
-        [Header("回転する絵の回転速度")]
-        private float _loadingImageSpeed = 1f;
-
         #endregion
 
         #region Member Variables
 
-        private Vector3 _rotDir = new Vector3(0f, 0f, -360);
-        private const int LOOP_VALUE = -1;
+        private Vector3 _rotDir = new(0f, 0f, -360);
 
         #endregion
 
         #region Constants
 
+        private const float LOADING_IMAGE_SPEED = 1f;
+        private const int LOOP_VALUE = -1;
         public const float MAX_ALPFA_VALUE = 1f;
 
         #endregion
@@ -55,9 +51,9 @@ namespace Template.Manager
 
         #endregion
 
-        #region Public Methods
+        #region Private Methods
 
-        public async UniTask<float> FadeIn()
+        protected async UniTask<float> FadeIn()
         {
             _loadingImage?.gameObject.SetActive(false);
             _loadingImage?.DOKill();
@@ -67,17 +63,17 @@ namespace Template.Manager
             return _fadeTime;
         }
 
-        public async UniTask<float> FadeOut()
+        protected async UniTask<float> FadeOut()
         {
             if (_loadingPanel != null)
-            await _loadingPanel.DOFade(MAX_ALPFA_VALUE, _fadeTime).AsyncWaitForCompletion();
+                await _loadingPanel.DOFade(MAX_ALPFA_VALUE, _fadeTime).AsyncWaitForCompletion();
 
             _loadingPanel?.DOKill();
 
             _loadingImage?.gameObject.SetActive(true);
             _loadingImage?
                 .transform
-                .DORotate(_rotDir, _loadingImageSpeed, RotateMode.FastBeyond360)
+                .DORotate(_rotDir, LOADING_IMAGE_SPEED, RotateMode.FastBeyond360)
                 .SetEase(Ease.Linear)
                 .SetLoops(LOOP_VALUE);
 
