@@ -54,7 +54,7 @@ namespace TemplateEditor.Processor
         }
 
         /// <summary>
-        /// インプット名を定数で管理する構造体を作成する関数
+        /// 名前空間名を定数で管理する構造体を作成する関数
         /// </summary>
         /// <param name="importedAssets"></param>
         private static void CreateScript(string[] importedAssets)
@@ -120,7 +120,7 @@ namespace TemplateEditor.Processor
 
             File.WriteAllText(EXPORT_PATH, builder.ToString(), Encoding.UTF8);
             AssetDatabase.Refresh(ImportAssetOptions.ImportRecursive);
-            Debug.Log("InputNameを作成完了");
+            Debug.Log("RootNameSpaceNameを作成完了");
         }
 
         #endregion
