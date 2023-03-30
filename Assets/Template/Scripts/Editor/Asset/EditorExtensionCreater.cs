@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using Template.Constant;
+using Template.Extension;
 using UnityEditor;
 using UnityEngine;
 
@@ -16,7 +17,7 @@ namespace TemplateEditor.Asset
 		#region Constants
 
 		// コマンド名
-		private const string COMMAND_NAME = "Assets/Create Editor Extension Script";
+		private const string COMMAND_NAME = "Assets/Editor Extension Script";
 
 		#endregion
 
@@ -25,16 +26,16 @@ namespace TemplateEditor.Asset
 		[MenuItem(COMMAND_NAME)]
         private static void CreateEditorExtension()
         {
-            var filtered = 
-				Selection
-					.GetFiltered(typeof(MonoScript), SelectionMode.Assets);
+            var filtered = Selection.GetFiltered
+							(typeof(MonoScript), SelectionMode.Assets);
 
-            foreach (var go in filtered)
+            foreach (var monoScript in filtered)
             {
-                var path = AssetDatabase.GetAssetPath(go);
-				var name = Path.GetFileNameWithoutExtension(path);
-				Debug.Log($"{name}のエディター拡張を作成した");
-				CreateScript(name);
+                var path = AssetDatabase.GetAssetPath(monoScript);
+				var directoryName = Path.GetDirectoryName(path);
+				var fileName = Path.GetFileNameWithoutExtension(path);
+				CreateScript(directoryName, fileName);
+				Debug.Log($"{fileName}のエディター拡張を作成した");
 			}
 
             Selection.activeObject = null;
@@ -51,10 +52,20 @@ namespace TemplateEditor.Asset
 			return isPlayingEditor && isPlaying;
 		}
 
-		private static void CreateScript(string name)
+		private static void CreateScript(string directoryname, string fileName)
 		{
-			var scriptName = $"Assets/Scripts/Editor/Inspector/{name}Editor.cs";
-			var fineName = Path.GetFileNameWithoutExtension(scriptName);
+			var scriptName = $"{directoryname}/Editor/{fileName}Editor.cs";
+			string directoryName = Path.GetDirectoryName(scriptName);
+
+			if (!Directory.Exists(directoryName)) Directory.CreateDirectory(directoryName);
+
+			File.WriteAllText(scriptName, CreateBuilder(fileName).ToString(), Encoding.UTF8);
+			AssetDatabase.Refresh(ImportAssetOptions.ImportRecursive);
+		}
+
+
+		private static StringBuilder CreateBuilder(string fileName)
+        {
 			var builder = new StringBuilder();
 
 			//Script
@@ -80,10 +91,10 @@ namespace TemplateEditor.Asset
 				//Class
 				{
 					builder.Append("\t").AppendLine("/// <summary>");
-					builder.Append("\t").AppendLine($"/// {name}のエディター拡張");
+					builder.Append("\t").AppendLine($"/// {fileName}のエディター拡張");
 					builder.Append("\t").AppendLine("/// </summary>");
-					builder.Append("\t").AppendLine($"[CustomEditor(typeof({name}))]");
-					builder.Append("\t").AppendFormat("public class {0} : Editor", fineName).AppendLine();
+					builder.Append("\t").AppendLine($"[CustomEditor(typeof({fileName}))]");
+					builder.Append("\t").AppendFormat("public class {0} : Editor", $"{fileName}Inspector").AppendLine();
 					builder.Append("\t").AppendLine("{");
 
 					//Member Variables
@@ -112,7 +123,7 @@ namespace TemplateEditor.Asset
 						builder.Append("\t").AppendLine("\t");
 						builder.Append("\t").Append("\t").Append("\t").AppendLine("base.OnInspectorGUI();");
 						builder.AppendLine("\t");
-						builder.Append("\t").Append("\t").Append("\t").AppendLine($"var {name.ToLower()} = target as {name};");
+						builder.Append("\t").Append("\t").Append("\t").AppendLine($"var {fileName.ToLower()} = target as {fileName};");
 						builder.Append("\t").Append("\t").Append("\t").AppendLine("var style = new GUIStyle(EditorStyles.label);");
 						builder.Append("\t").Append("\t").Append("\t").AppendLine("style.richText = true;");
 						builder.AppendLine("\t");
@@ -140,16 +151,7 @@ namespace TemplateEditor.Asset
 
 				builder.AppendLine("}");
 			}
-
-			string directoryName = Path.GetDirectoryName(scriptName);
-
-			if (!Directory.Exists(directoryName))
-			{
-				Directory.CreateDirectory(directoryName);
-			}
-
-			File.WriteAllText(scriptName, builder.ToString(), Encoding.UTF8);
-			AssetDatabase.Refresh(ImportAssetOptions.ImportRecursive);
+			return builder;
 		}
 
 		#endregion
