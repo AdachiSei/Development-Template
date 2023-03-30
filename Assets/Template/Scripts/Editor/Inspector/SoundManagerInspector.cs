@@ -11,7 +11,7 @@ namespace TemplateEditor.Inspector
     /// サウンドマネージャーのエディター拡張
     /// </summary>
     [CustomEditor(typeof(SoundManager))]
-    public class SoundManagerEditor : Editor
+    public class SoundManagerInspector : Editor
     {
         #region Member Variables
 
