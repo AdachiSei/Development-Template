@@ -8,7 +8,7 @@ using UnityEngine;
 
 namespace TemplateEditor.Create
 {
-	public static class CreateScriptMVP
+	public static class CreateScriptForMVP
 	{
 		#region Member Variables
 
