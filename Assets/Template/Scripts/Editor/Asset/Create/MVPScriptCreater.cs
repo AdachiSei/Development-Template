@@ -3,12 +3,14 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using Template.Constant;
+using TemplateEditor.Project;
+using TemplateEditor.Window;
 using UnityEditor;
 using UnityEngine;
 
-namespace TemplateEditor.Create
+namespace TemplateEditor.Asset.Create
 {
-	public static class CreateScriptForMVP
+	public static class MVPScriptCreater
 	{
 		#region Member Variables
 
@@ -150,7 +152,6 @@ namespace TemplateEditor.Create
 
 		private static void CreateView(string scriptName)
 		{
-
 			var path = $"{CurrentDirectory.GetCurrentDirectory()}/View/{scriptName}View.cs";
 			var directoryName = Path.GetDirectoryName(path);
 
