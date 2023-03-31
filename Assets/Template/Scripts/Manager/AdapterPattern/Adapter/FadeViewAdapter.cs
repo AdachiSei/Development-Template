@@ -18,12 +18,29 @@ namespace Template.Adapter
 
         public async UniTask<float> FadeInMethod()
         {
-            return await FadeIn();
+            _loadingImage?.gameObject.SetActive(false);
+            _loadingImage?.DOKill();
+
+            await _loadingPanel?.DOFade(0f, _fadeTime).AsyncWaitForCompletion();
+
+            return _fadeTime;
         }
 
         public async UniTask<float> FadeOutMethod()
         {
-            return await FadeOut();
+            if (_loadingPanel != null)
+                await _loadingPanel.DOFade(MAX_ALPFA, _fadeTime).AsyncWaitForCompletion();
+
+            _loadingPanel?.DOKill();
+
+            _loadingImage?.gameObject.SetActive(true);
+            _loadingImage?
+                .transform
+                .DORotate(_rotDir, LOADING_IMAGE_SPEED, RotateMode.FastBeyond360)
+                .SetEase(Ease.Linear)
+                .SetLoops(LOOP_VALUE);
+
+            return _fadeTime;
         }
 
         #endregion
