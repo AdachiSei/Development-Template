@@ -54,7 +54,7 @@ namespace TemplateEditor.Asset
 
 		private static void CreateScript(string directoryname, string fileName)
 		{
-			var scriptName = $"{directoryname}/Editor/{fileName}Editor.cs";
+			var scriptName = $"{directoryname}/Editor/{fileName}Inspector.cs";
 			string directoryName = Path.GetDirectoryName(scriptName);
 
 			if (!Directory.Exists(directoryName)) Directory.CreateDirectory(directoryName);
@@ -85,7 +85,7 @@ namespace TemplateEditor.Asset
 				builder.AppendLine("\t");
 
 				//NameSpace
-				builder.AppendLine("namespace TemplateEditor.Inspector");
+				builder.AppendLine($"namespace {RootNameSpaceName.DEFAULT}Editor.Inspector");
 				builder.AppendLine("{");
 
 				//Class
@@ -118,7 +118,7 @@ namespace TemplateEditor.Asset
 						builder.Append("\t").Append("\t").AppendLine("public override void OnInspectorGUI()");
 						builder.Append("\t").Append("\t").AppendLine("{");
 						builder.Append("\t").Append("\t").Append("\t").AppendLine("EditorGUI.BeginDisabledGroup(true);");
-						builder.Append("\t").Append("\t").Append("\t").AppendLine("EditorGUILayout.ObjectField(EditorName.EDITOR, MonoScript.FromScriptableObject(this), typeof(MonoScript), false);");
+						builder.Append("\t").Append("\t").Append("\t").AppendLine("EditorGUILayout.ObjectField(\"Editor\", MonoScript.FromScriptableObject(this), typeof(MonoScript), false);");
 						builder.Append("\t").Append("\t").Append("\t").AppendLine("EditorGUI.EndDisabledGroup();");
 						builder.Append("\t").AppendLine("\t");
 						builder.Append("\t").Append("\t").Append("\t").AppendLine("base.OnInspectorGUI();");
@@ -129,7 +129,7 @@ namespace TemplateEditor.Asset
 						builder.AppendLine("\t");
 						builder.Append("\t").Append("\t").Append("\t").AppendLine("EditorGUILayout.Space();");
 						builder.AppendLine("\t");
-						builder.Append("\t").Append("\t").Append("\t").AppendLine("_isOpening = EditorGUILayout.Foldout(_isOpening, EditorName.SETTINGS);");
+						builder.Append("\t").Append("\t").Append("\t").AppendLine("_isOpening = EditorGUILayout.Foldout(_isOpening, \"Settings\");");
 						builder.Append("\t").Append("\t").Append("\t").AppendLine("if (_isOpening)");
 						builder.Append("\t").Append("\t").Append("\t").AppendLine("{");
 						builder.Append("\t").Append("\t").Append("\t").Append("\t").AppendLine("EditorGUILayout.Space();");
