@@ -40,7 +40,7 @@ namespace TemplateEditor.Window
         /// </summary>
         public override Vector2 GetWindowSize()
         {
-            return new(300f, 50f);
+            return new(200f, 50f);
         }
 
         /// <summary>
@@ -48,20 +48,24 @@ namespace TemplateEditor.Window
         /// </summary>
         public override void OnGUI(Rect rect)
         {
-            EditorGUILayout.LabelField("Please Enter The Script Name");
+            var style = new GUIStyle(EditorStyles.label);
+            style.richText = true;
 
-            EditorGUILayout.Space();
+            EditorGUILayout.LabelField("<b>Please Enter The Script Name</b>", style);
 
-            var scriptName = EditorGUILayout
-                        .TextField("スクリプト名", _scriptName);
+            var scriptName = 
+                EditorGUILayout.DelayedTextField(_scriptName);
             _scriptName = scriptName;
+
+            if (_scriptName != "NewScript") OnClose();
         }
 
         /// <summary>
-        /// 閉じたときの処理
+        /// 閉じたときに呼ばれる関数
         /// </summary>
         public override void OnClose()
         {
+            base.OnClose();
             OnCreate?.Invoke(_scriptName);
         }
 
