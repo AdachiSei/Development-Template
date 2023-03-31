@@ -10,7 +10,7 @@ using UnityEngine;
 
 namespace TemplateEditor.Asset.Create
 {
-	public static class MVPScriptCreater
+	public class MVPScriptCreater
 	{
 		#region Member Variables
 
@@ -19,6 +19,8 @@ namespace TemplateEditor.Asset.Create
 			Path.GetFileNameWithoutExtension(EXPORT_PATH);
 
 		private static string _rootNameSpaceName = "";
+
+		private static readonly Vector2 _windowPos = new(100, 500);
 
 		#endregion
 
@@ -34,31 +36,17 @@ namespace TemplateEditor.Asset.Create
 
 		#endregion
 
+		private static Rect _dropDownButtonRect;
+
+		#region Private Methods
+
 		[MenuItem(COMMAND_NAME, priority = 70)]
-		private static void Create()
-		{
-			if (!CanCreate()) return;
-			CreateScript();
-			Debug.Log("作成完了");
-		}
-
-		/// <summary>
-		/// 作成できるかどうかを取得します
-		/// </summary>
-		[MenuItem(COMMAND_NAME, true)]
-		private static bool CanCreate()
-		{
-			var isPlayingEditor = !EditorApplication.isPlaying;
-			var isPlaying = !Application.isPlaying;
-			var isCompiling = !EditorApplication.isCompiling;
-			return isPlayingEditor && isPlaying && isCompiling;
-		}
-
 		private static void CreateScript()
 		{
 			// クリックした位置を視点とするRectを作る
 			// 本来のポップアップの用途として使う場合はボタンのRectを渡す
-			var mouseRect = new Rect(new Vector2(100f, 100f), Vector2.one);
+			var mouseRect = new Rect(_windowPos, Vector2.one);
+			Debug.Log(_windowPos);
 
 			// PopupWindowContentを生成
 			var content = new InputWindow(CreateMVP);
@@ -74,6 +62,8 @@ namespace TemplateEditor.Asset.Create
 			CreateView(scriptName);
 			CreatePresenter(scriptName);
         }
+
+        #endregion
 
         #region Model Methods
 
@@ -98,6 +88,7 @@ namespace TemplateEditor.Asset.Create
 				builder.AppendLine($"using System.Collections;");
 				builder.AppendLine($"using System.Collections.Generic;");
 				builder.AppendLine($"using UnityEngine;");
+				builder.AppendLine("\t");
 
 				//NameSpace
 				if (_rootNameSpaceName != "")
@@ -111,32 +102,34 @@ namespace TemplateEditor.Asset.Create
 					builder.Append("\t").AppendLine("/// <summary>");
 					builder.Append("\t").AppendLine("/// Data");
 					builder.Append("\t").AppendLine("/// </summary>");
-					builder.Append("\t").AppendFormat("public class {0}", $"{FILENAME}Data").AppendLine();
+					builder.Append("\t").AppendLine($"public class {FILENAME}Data");
 					builder.Append("\t").AppendLine("{");
+					{
 
-					builder.Append("\t").Append("\t").AppendLine("#region Properties");
-					builder.Append("\t").Append("\t").AppendLine("#endregion");
+						builder.Append("\t").Append("\t").AppendLine("#region Properties");
+						builder.Append("\t").Append("\t").AppendLine("#endregion");
 
-					builder.AppendLine("\t");
+						builder.AppendLine("\t");
 
-					builder.Append("\t").Append("\t").AppendLine("#region Inspector Variables");
-					builder.Append("\t").Append("\t").AppendLine("#endregion");
+						builder.Append("\t").Append("\t").AppendLine("#region Inspector Variables");
+						builder.Append("\t").Append("\t").AppendLine("#endregion");
 
-					builder.AppendLine("\t");
+						builder.AppendLine("\t");
 
-					builder.Append("\t").Append("\t").AppendLine("#region Member Variables");
-					builder.Append("\t").Append("\t").AppendLine("#endregion");
+						builder.Append("\t").Append("\t").AppendLine("#region Member Variables");
+						builder.Append("\t").Append("\t").AppendLine("#endregion");
 
-					builder.AppendLine("\t");
+						builder.AppendLine("\t");
 
-					builder.Append("\t").Append("\t").AppendLine("#region Public Methods");
-					builder.Append("\t").Append("\t").AppendLine("#endregion");
+						builder.Append("\t").Append("\t").AppendLine("#region Public Methods");
+						builder.Append("\t").Append("\t").AppendLine("#endregion");
 
-					builder.AppendLine("\t");
+						builder.AppendLine("\t");
 
-					builder.Append("\t").Append("\t").AppendLine("#region Private Methods");
-					builder.Append("\t").Append("\t").AppendLine("#endregion");
+						builder.Append("\t").Append("\t").AppendLine("#region Private Methods");
+						builder.Append("\t").Append("\t").AppendLine("#endregion");
 
+					}
 					builder.Append("\t").AppendLine("}");
 				}
 
@@ -170,6 +163,7 @@ namespace TemplateEditor.Asset.Create
 				builder.AppendLine($"using System.Collections;");
 				builder.AppendLine($"using System.Collections.Generic;");
 				builder.AppendLine($"using UnityEngine;");
+				builder.AppendLine("\t");
 
 				//NameSpace
 				if (_rootNameSpaceName != "")
@@ -183,7 +177,7 @@ namespace TemplateEditor.Asset.Create
 					builder.Append("\t").AppendLine("/// <summary>");
 					builder.Append("\t").AppendLine("/// View");
 					builder.Append("\t").AppendLine("/// </summary>");
-					builder.Append("\t").AppendFormat("public class {0}", $"{FILENAME}View : MonoBehaviour").AppendLine();
+					builder.Append("\t").AppendLine($"public class {FILENAME}View : MonoBehaviour");
 					builder.Append("\t").AppendLine("{");
 
 					builder.Append("\t").Append("\t").AppendLine("#region Inspector Variables");
@@ -246,6 +240,7 @@ namespace TemplateEditor.Asset.Create
 				builder.AppendLine($"using System.Collections.Generic;");
 				builder.AppendLine($"using UnityEngine;");
 				builder.AppendLine($"using UniRx;");
+				builder.AppendLine("\t");
 
 				//NameSpace
 				if (_rootNameSpaceName != "")
@@ -259,29 +254,53 @@ namespace TemplateEditor.Asset.Create
 					builder.Append("\t").AppendLine("/// <summary>");
 					builder.Append("\t").AppendLine("/// Presenter");
 					builder.Append("\t").AppendLine("/// </summary>");
-					builder.Append("\t").AppendFormat("public class {0}", $"{FILENAME}Presenter : MonoBehaviour").AppendLine();
+					builder.Append("\t").AppendLine($"public class {FILENAME}Presenter : MonoBehaviour");
 					builder.Append("\t").AppendLine("{");
+					{
+						{
 
-					builder.Append("\t").Append("\t").AppendLine("#region Inspector Variables");
-					builder.Append("\t").Append("\t").AppendLine("#endregion");
+							builder.Append("\t").Append("\t").AppendLine("#region Inspector Variables");
+							{
+								builder.AppendLine("\t");
 
-					builder.AppendLine("\t");
+								builder.Append("\t").Append("\t").AppendLine("[SerializeField]");
+								builder.Append("\t").Append("\t").AppendLine($"{FILENAME}View _{FILENAME.ToLower()}View = null;");
 
-					builder.Append("\t").Append("\t").AppendLine("#region Unity Methods");
+								builder.AppendLine("\t");
+							}
+							builder.Append("\t").Append("\t").AppendLine("#endregion");
 
-					builder.AppendLine("\t");
+							builder.AppendLine("\t");
 
-					builder.Append("\t").Append("\t").AppendLine("private void Awake()");
-					builder.Append("\t").Append("\t").AppendLine("{");
+							builder.Append("\t").Append("\t").AppendLine("#region Member Variables");
+							{
+								builder.AppendLine("\t");
 
-					builder.AppendLine("\t");
+								builder.Append("\t").Append("\t").AppendLine($"{FILENAME}Data _{FILENAME.ToLower()}Data = new();");
 
-					builder.Append("\t").Append("\t").AppendLine("}");
+								builder.AppendLine("\t");
+							}
+							builder.Append("\t").Append("\t").AppendLine("#endregion");
 
-					builder.AppendLine("\t");
+							builder.AppendLine("\t");
 
-					builder.Append("\t").Append("\t").AppendLine("#endregion");
+							builder.Append("\t").Append("\t").AppendLine("#region Unity Methods");
+							{
+								builder.AppendLine("\t");
 
+								builder.Append("\t").Append("\t").AppendLine("private void Awake()");
+								builder.Append("\t").Append("\t").AppendLine("{");
+
+								builder.AppendLine("\t");
+
+								builder.Append("\t").Append("\t").AppendLine("}");
+
+								builder.AppendLine("\t");
+							}
+							builder.Append("\t").Append("\t").AppendLine("#endregion");
+
+						}
+					}
 					builder.Append("\t").AppendLine("}");
 				}
 
