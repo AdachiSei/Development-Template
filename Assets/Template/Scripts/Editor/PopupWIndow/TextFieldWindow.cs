@@ -9,7 +9,7 @@ namespace TemplateEditor.Window
     /// <summary>
     /// 文字を入力するためのポップアップウィンドウ
     /// </summary>
-    public class InputWindow : PopupWindowContent
+    public class TextFieldWindow : PopupWindowContent
     {
         #region Properties
 
@@ -25,7 +25,7 @@ namespace TemplateEditor.Window
 
         #region Init Methods
 
-        public InputWindow(Action<string> action)
+        public TextFieldWindow(Action<string> action)
         {
             OnCreate = null;
             OnCreate += action;

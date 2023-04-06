@@ -12,12 +12,12 @@ namespace TemplateEditor.Asset
 	/// <summary>
 	/// エディター拡張したいスクリプトを作成するエディター拡張
 	/// </summary>
-	public static class EditorExtensionCreater
+	public static class InspectorExtensionCreater
     {
 		#region Constants
 
 		// コマンド名
-		private const string COMMAND_NAME = "Assets/Editor Extension Script";
+		private const string COMMAND_NAME = "Assets/Inspector Extension Script";
 
 		#endregion
 
