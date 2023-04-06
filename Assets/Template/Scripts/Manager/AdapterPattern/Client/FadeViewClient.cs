@@ -22,8 +22,9 @@ namespace Template.Adapter
         {
             if (TryGetComponent(out _fadable))
             {
-                SceneLoader.OnFadeIn += _fadable.FadeInMethod;
-                SceneLoader.OnFadeOut += _fadable.FadeOutMethod;
+                _fadable.FadeIn();
+                SceneLoader.OnFadeIn += _fadable.FadeIn;
+                SceneLoader.OnFadeOut += _fadable.FadeOut;
             }
         }
 

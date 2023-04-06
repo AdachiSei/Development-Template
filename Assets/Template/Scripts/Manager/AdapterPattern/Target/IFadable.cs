@@ -10,9 +10,9 @@ namespace Template.Adapter
     {
         #region Methods
 
-        UniTask<float> FadeInMethod();
+        UniTask FadeIn();
 
-        UniTask<float> FadeOutMethod();
+        UniTask FadeOut();
 
         #endregion
     }

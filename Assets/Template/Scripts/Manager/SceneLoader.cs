@@ -25,8 +25,8 @@ namespace Template.Manager
         #region Events
 
         public static event Action OnStartGame;
-        public static event Func<UniTask<float>> OnFadeIn;
-        public static event Func<UniTask<float>> OnFadeOut;
+        public static event Func<UniTask> OnFadeIn;
+        public static event Func<UniTask> OnFadeOut;
 
         #endregion
 

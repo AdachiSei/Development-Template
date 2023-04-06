@@ -16,17 +16,15 @@ namespace Template.Adapter
     {
         #region Public Methods
 
-        public async UniTask<float> FadeInMethod()
+        public async UniTask FadeIn()
         {
             _loadingImage?.gameObject.SetActive(false);
             _loadingImage?.DOKill();
 
             await _loadingPanel?.DOFade(0f, _fadeTime).AsyncWaitForCompletion();
-
-            return _fadeTime;
         }
 
-        public async UniTask<float> FadeOutMethod()
+        public async UniTask FadeOut()
         {
             if (_loadingPanel != null)
                 await _loadingPanel.DOFade(MAX_ALPFA, _fadeTime).AsyncWaitForCompletion();
@@ -39,8 +37,6 @@ namespace Template.Adapter
                 .DORotate(_rotDir, LOADING_IMAGE_SPEED, RotateMode.FastBeyond360)
                 .SetEase(Ease.Linear)
                 .SetLoops(LOOP_VALUE);
-
-            return _fadeTime;
         }
 
         #endregion
