@@ -1,6 +1,4 @@
 using System;
-using System.IO;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -163,7 +161,7 @@ namespace Template.Manager
             foreach (var audioSource in _bgmAudioSources)
             {
                 audioSource.Stop();
-                audioSource.name = audioSource.clip.name;
+                audioSource.name = audioSource.clip ? audioSource.clip.name : "null";
             }
 
             if (name == "") return;
@@ -212,7 +210,7 @@ namespace Template.Manager
         /// </summary>
         /// <param name="name">効果音(SFX)の名前</param>
         /// <param name="volume">音の大きさ</param>
-        async public void PlaySFX(string name, float volume = 1)
+        public async void PlaySFX(string name, float volume = 1)
         {
             var sfxVolume = volume * _masterVolume * _sfxVolume;
 
@@ -273,7 +271,7 @@ namespace Template.Manager
         /// <param name="name">効果音(SFX)の名前</param>
         /// <param name="audioSource">効果音(SFX)の名前</param>
         /// <param name="volume">音の大きさ</param>
-        async public void PlaySFX(string name, Transform parent, float volume = 1)
+        public async void PlaySFX(string name, Transform parent, float volume = 1)
         {
             var sfxVolume = volume * _masterVolume * _sfxVolume;
 
@@ -290,6 +288,7 @@ namespace Template.Manager
                             audioSource.clip = data.SFXClip;
                             audioSource.volume = sfxVolume;
                             audioSource.gameObject.transform.SetParent(parent);
+                            audioSource.transform.localPosition = Vector3.zero;
 
                             var privName = audioSource.name;
                             audioSource.name = data.name;
@@ -300,6 +299,8 @@ namespace Template.Manager
                             audioSource.name = privName;
                             audioSource.clip = null;
                             audioSource.gameObject.transform.SetParent(_sFXParent);
+                            audioSource.transform.localPosition = Vector3.zero;
+
                             return;
                         }
                     }
@@ -307,6 +308,7 @@ namespace Template.Manager
                     //無かったら新しく作る
                     var newAudioSource = Instantiate(_audioPrefab);
                     newAudioSource.transform.SetParent(_sFXParent.transform);
+                    newAudioSource.transform.localPosition = Vector3.zero;
 
                     newAudioSource.name = $"NewSFX {_newAudioSourceCount}";
                     _newAudioSourceCount++;
@@ -326,6 +328,8 @@ namespace Template.Manager
                     newAudioSource.name = newPrivName;
                     newAudioSource.clip = null;
                     newAudioSource.gameObject.transform.SetParent(_sFXParent);
+                    newAudioSource.transform.localPosition = Vector3.zero;
+
                     return;
                 }
             }
@@ -336,7 +340,7 @@ namespace Template.Manager
         /// <summary>
         /// BGMをフェードする関数
         /// </summary>
-        async public UniTask FadeBGM()
+        public async UniTask FadeBGM()
         {
             //BGMの音量を少しずつ下げる
             foreach (var audio in _bgmAudioSources)
@@ -450,6 +454,7 @@ namespace Template.Manager
             {
                 var audio = Instantiate(_audioPrefab);
                 audio.transform.SetParent(_bGMParent.transform);
+                audio.transform.localPosition = Vector2.zero;
                 _bgmAudioSources.Add(audio);
 
                 audio.name = _bgmDatas[i].Name;
@@ -479,6 +484,7 @@ namespace Template.Manager
             {
                 var audio = Instantiate(_audioPrefab);
                 audio.transform.SetParent(_sFXParent.transform);
+                audio.transform.localPosition = Vector2.zero;
 
                 audio.loop = false;
                 audio.name = $"SFX {i.ToString("D3")}";
