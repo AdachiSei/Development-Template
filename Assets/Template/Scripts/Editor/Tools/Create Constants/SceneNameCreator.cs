@@ -21,7 +21,7 @@ namespace TemplateEditor.Tools
         #region Constants
 
         // コマンド名
-        private const string COMMAND_NAME = "Tools/CreateConstants/Scene Name";
+        private const string COMMAND_NAME = "Tools/Create Constants/Scene Name";
 
 		//作成したスクリプトを保存するパス
 		private const string EXPORT_PATH = "Assets/Scripts/Constants/SceneName.cs";

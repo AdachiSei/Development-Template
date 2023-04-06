@@ -28,7 +28,7 @@ namespace TemplateEditor.Tools
         #region Constants
 
         // コマンド名
-        private const string COMMAND_NAME = "Tools/CreateConstants/Audio NickName";
+        private const string COMMAND_NAME = "Tools/Create Constants/Audio NickName";
 
 		//作成したスクリプトを保存するパス(BGM)
 		private const string EXPORT_PATH_BGM = "Assets/Scripts/Constants/BGMName.cs";
