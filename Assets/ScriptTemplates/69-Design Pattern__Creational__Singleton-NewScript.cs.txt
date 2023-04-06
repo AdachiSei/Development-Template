@@ -1,0 +1,44 @@
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using Template.Singleton;
+
+#ROOTNAMESPACEBEGIN#
+/// <summary>
+/// スクリプト
+/// </summary>
+public class #SCRIPTNAME# : SingletonMonoBehaviour<#SCRIPTNAME#>
+{
+    #region Properties
+    #endregion
+
+    #region Inspector Variables
+    #endregion
+
+    #region Member Variables
+    #endregion
+
+    #region Constants
+    #endregion
+
+    #region Unity Methods
+
+    protected override void Awake()
+    {
+        base.Awake();
+    }
+
+    private void Update()
+    {
+            #NOTRIM#
+    }
+
+    #endregion
+
+    #region Public Methods
+    #endregion
+
+    #region Private Methods
+    #endregion
+}
+#ROOTNAMESPACEEND#
