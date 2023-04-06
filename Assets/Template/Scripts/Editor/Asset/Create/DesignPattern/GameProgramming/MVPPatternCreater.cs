@@ -10,7 +10,7 @@ using UnityEngine;
 
 namespace TemplateEditor.Asset.Create
 {
-	public class MVPScriptCreater
+	public class MVPPatternCreater
 	{
 		#region Member Variables
 
@@ -25,8 +25,6 @@ namespace TemplateEditor.Asset.Create
 		#endregion
 
 		#region Constants
-
-		private const string PLUGIN_PATH = "Assets/ScriptTemplates/";
 
 		// コマンド名
 		private const string COMMAND_NAME = "Assets/Create/Design Pattern/Game Programming/MVP";
@@ -46,10 +44,9 @@ namespace TemplateEditor.Asset.Create
 			// クリックした位置を視点とするRectを作る
 			// 本来のポップアップの用途として使う場合はボタンのRectを渡す
 			var mouseRect = new Rect(_windowPos, Vector2.one);
-			Debug.Log(_windowPos);
 
 			// PopupWindowContentを生成
-			var content = new InputWindow(CreateMVP);
+			var content = new TextFieldWindow(CreateMVP);
 
 			// 開く
 			PopupWindow.Show(mouseRect, content);
@@ -258,13 +255,12 @@ namespace TemplateEditor.Asset.Create
 					builder.Append("\t").AppendLine("{");
 					{
 						{
-
-							builder.Append("\t").Append("\t").AppendLine("#region Inspector Variables");
+							builder.Append("\t").Append("\t").AppendLine("#region Properties");
 							{
 								builder.AppendLine("\t");
 
-								builder.Append("\t").Append("\t").AppendLine("[SerializeField]");
-								builder.Append("\t").Append("\t").AppendLine($"{FILENAME}View _{FILENAME.ToLower()}View = null;");
+								builder.Append("\t").Append("\t").Append($"public {FILENAME}Data {FILENAME}Data");
+								builder.AppendLine(" { get; private set; } = new();");
 
 								builder.AppendLine("\t");
 							}
@@ -272,11 +268,12 @@ namespace TemplateEditor.Asset.Create
 
 							builder.AppendLine("\t");
 
-							builder.Append("\t").Append("\t").AppendLine("#region Member Variables");
+							builder.Append("\t").Append("\t").AppendLine("#region Inspector Variables");
 							{
 								builder.AppendLine("\t");
 
-								builder.Append("\t").Append("\t").AppendLine($"{FILENAME}Data _{FILENAME.ToLower()}Data = new();");
+								builder.Append("\t").Append("\t").AppendLine("[SerializeField]");
+								builder.Append("\t").Append("\t").AppendLine($"private {FILENAME}View _{FILENAME.ToLower()}View = null;");
 
 								builder.AppendLine("\t");
 							}
