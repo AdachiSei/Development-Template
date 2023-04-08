@@ -118,13 +118,13 @@ public class AnyName
     #region Constants
         // 定数
     #region Events
-        //  System.Action, System.Func などのデリゲートやコールバック関数
+        // System.Action, System.Func などのデリゲートやコールバック関数
     #region Unity Methods
-        //  Start, UpdateなどのUnityのイベント関数
+        // Start, UpdateなどのUnityのイベント関数
     #region Enums
         // 列挙型
     #region Public Methods
-        //　自作のPublicな関数
+        // 自作のPublicな関数
     #region Private Methods
         // 自作のPrivateな関数
 }
