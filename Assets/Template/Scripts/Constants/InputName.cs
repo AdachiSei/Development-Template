@@ -1,7 +1,7 @@
 ﻿namespace Template.Constant
 {
 	/// <summary>
-	/// インプット名を定数で管理するクラス
+	/// インプット名を定数で管理する構造体
 	/// </summary>
 	public struct InputName
 	{

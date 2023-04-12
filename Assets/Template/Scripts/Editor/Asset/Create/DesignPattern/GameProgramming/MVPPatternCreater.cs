@@ -14,7 +14,9 @@ namespace TemplateEditor.Asset.Create
 	{
 		#region Member Variables
 
-		// ファイル名(拡張子あり、なし)
+		/// <summary>
+		/// ファイル名
+		/// </summary>
 		private static readonly string FILENAME =
 			Path.GetFileNameWithoutExtension(EXPORT_PATH);
 
@@ -26,19 +28,27 @@ namespace TemplateEditor.Asset.Create
 
 		#region Constants
 
-		// コマンド名
+		/// <summary>
+		/// コマンド名
+		/// </summary>
 		private const string COMMAND_NAME = "Assets/Create/Design Pattern/Game Programming/MVP";
 
-		//作成したスクリプトを保存するパス
+		/// <summary>
+		/// プライオリティ
+		/// </summary>
+		private const int PRIORITY = 70;
+
+		/// <summary>
+		/// 作成したスクリプトを保存するパス
+		/// </summary>
 		private const string EXPORT_PATH = "NewScript.cs";
+
 
 		#endregion
 
-		private static Rect _dropDownButtonRect;
+		#region MenuItem Methods
 
-		#region Private Methods
-
-		[MenuItem(COMMAND_NAME, priority = 70)]
+		[MenuItem(COMMAND_NAME, priority = PRIORITY)]
 		private static void CreateScript()
 		{
 			// クリックした位置を視点とするRectを作る
@@ -72,11 +82,11 @@ namespace TemplateEditor.Asset.Create
 
 			if (!Directory.Exists(directoryName)) Directory.CreateDirectory(directoryName);
 
-			File.WriteAllText(path, BuildModel().ToString(), Encoding.UTF8);
+			File.WriteAllText(path, BuildModel(), Encoding.UTF8);
 			AssetDatabase.Refresh(ImportAssetOptions.ImportRecursive);
 		}
 
-		private static StringBuilder BuildModel()
+		private static string BuildModel()
         {
 			var builder = new StringBuilder();
 
@@ -133,7 +143,7 @@ namespace TemplateEditor.Asset.Create
 				if (_rootNameSpaceName != "") builder.AppendLine("}");
 			}
 
-			return builder;
+			return builder.ToString();
 		}
 
 		#endregion
@@ -147,11 +157,11 @@ namespace TemplateEditor.Asset.Create
 
 			if (!Directory.Exists(directoryName)) Directory.CreateDirectory(directoryName);
 
-			File.WriteAllText(path, BuildView().ToString(), Encoding.UTF8);
+			File.WriteAllText(path, BuildView(), Encoding.UTF8);
 			AssetDatabase.Refresh(ImportAssetOptions.ImportRecursive);
 		}
 
-		private static StringBuilder BuildView()
+		private static string BuildView()
 		{
 			var builder = new StringBuilder();
 
@@ -208,7 +218,7 @@ namespace TemplateEditor.Asset.Create
 				if (_rootNameSpaceName != "") builder.AppendLine("}");
 			}
 
-			return builder;
+			return builder.ToString();
 		}
 
 		#endregion
@@ -223,11 +233,11 @@ namespace TemplateEditor.Asset.Create
 
 			if (!Directory.Exists(directoryName)) Directory.CreateDirectory(directoryName);
 
-			File.WriteAllText(path, BuildPresenter().ToString(), Encoding.UTF8);
+			File.WriteAllText(path, BuildPresenter(), Encoding.UTF8);
 			AssetDatabase.Refresh(ImportAssetOptions.ImportRecursive);
 		}
 
-		private static StringBuilder BuildPresenter()
+		private static string BuildPresenter()
 		{
 			var builder = new StringBuilder();
 
@@ -304,7 +314,7 @@ namespace TemplateEditor.Asset.Create
 				if (_rootNameSpaceName != "") builder.AppendLine("}");
 			}
 
-			return builder;
+			return builder.ToString();
 		}
 
 		#endregion

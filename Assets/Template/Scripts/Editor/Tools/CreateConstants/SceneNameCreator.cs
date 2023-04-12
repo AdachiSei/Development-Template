@@ -12,7 +12,9 @@ namespace TemplateEditor.Tools
 	{
         #region Member Variables
 
-        // ファイル名(拡張子あり、なし)
+        /// <summary>
+		/// ファイル名
+		/// </summary>
         private static readonly string FILENAME =
 			Path.GetFileNameWithoutExtension(EXPORT_PATH);
 
@@ -20,24 +22,33 @@ namespace TemplateEditor.Tools
 
         #region Constants
 
-        // コマンド名
+		/// <summary>
+        /// コマンド名
+		/// </summary>
         private const string COMMAND_NAME = "Tools/Create Constants/Scene Name";
 
-		//作成したスクリプトを保存するパス
-		private const string EXPORT_PATH = "Assets/Scripts/Constants/SceneName.cs";
+		/// <summary>
+		/// ショートカットキー
+		/// </summary>
+        private const string SHORTCUT_KEY = " &s";
 
-        #endregion
+		/// <summary>
+		/// 作成したスクリプトを保存するパス
+		/// </summary>
+		private const string EXPORT_PATH = "Assets/Template/Scripts/Constants/SceneName.cs";
 
-        #region Private Methods
+		#endregion
 
-        /// <summary>
-        /// シーンのファイル名を定数で管理する構造体を作成します
-        /// </summary>
-        [MenuItem(COMMAND_NAME + " &s")]
+		#region MenuItem Methods
+
+		/// <summary>
+		/// シーンのファイル名を定数で管理する構造体を作成します
+		/// </summary>
+		[MenuItem(COMMAND_NAME + SHORTCUT_KEY)]
 		private static void Create()
 		{
 			if (!CanCreate()) return;
-			CreateScript();
+			CreateSceneName();
 			Debug.Log("SceneNameを作成完了");
 		}
 
@@ -52,12 +63,26 @@ namespace TemplateEditor.Tools
 			var isCompiling = !EditorApplication.isCompiling;
 			return isPlayingEditor && isPlaying && isCompiling;
 		}
-		
-		/// <summary>
-		/// スクリプトを作成します
-		/// </summary>
-		private static void CreateScript()
+
+        #endregion
+
+        #region SceneName Methods
+
+        /// <summary>
+        /// スクリプトを作成します
+        /// </summary>
+        private static void CreateSceneName()
 		{
+			var directoryName = Path.GetDirectoryName(EXPORT_PATH);
+
+			if (!Directory.Exists(directoryName)) Directory.CreateDirectory(directoryName);
+
+			File.WriteAllText(EXPORT_PATH, BuildConstants(), Encoding.UTF8);
+			AssetDatabase.Refresh(ImportAssetOptions.ImportRecursive);
+		}
+
+        private static string BuildConstants()
+        {
 			var builder = new StringBuilder();
 
 			//Script
@@ -103,14 +128,9 @@ namespace TemplateEditor.Tools
 				builder.AppendLine("}");
 			}
 
-			var directoryName = Path.GetDirectoryName(EXPORT_PATH);
-
-			if (!Directory.Exists(directoryName)) Directory.CreateDirectory(directoryName);
-
-			File.WriteAllText(EXPORT_PATH, builder.ToString(), Encoding.UTF8);
-			AssetDatabase.Refresh(ImportAssetOptions.ImportRecursive);
+			return builder.ToString();
 		}
 
-        #endregion
-    }
+		#endregion
+	}
 }

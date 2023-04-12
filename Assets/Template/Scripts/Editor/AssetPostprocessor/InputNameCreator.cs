@@ -29,7 +29,7 @@ namespace TemplateEditor.Processor
         /// <summary>
         /// 作成したスクリプトを保存するパス
         /// </summary>
-        private const string EXPORT_PATH = "Assets/Scripts/Constants/InputName.cs";
+        private const string EXPORT_PATH = "Assets/Template/Scripts/Constants/InputName.cs";
 
         #endregion
 

@@ -15,11 +15,15 @@ namespace TemplateEditor.Tools
 	{
         #region Member Variables
 
-        // 音楽用ファイル名
+		/// <summary>
+        /// 音楽用ファイル名
+		/// </summary>
         readonly private static string FILENAME_BGM =
 			Path.GetFileNameWithoutExtension(EXPORT_PATH_BGM);
 
-		// 効果音用ファイル名
+		/// <summary>
+		/// 効果音用ファイル名
+		/// </summary>
 		readonly private static string FILENAME_SFX =
 			Path.GetFileNameWithoutExtension(EXPORT_PATH_SFX);
 
@@ -27,27 +31,40 @@ namespace TemplateEditor.Tools
 
         #region Constants
 
-        // コマンド名
+		/// <summary>
+		/// コマンド名
+		/// </summary>
         private const string COMMAND_NAME = "Tools/Create Constants/Audio NickName";
 
-		//作成したスクリプトを保存するパス(BGM)
-		private const string EXPORT_PATH_BGM = "Assets/Scripts/Constants/BGMName.cs";
-		//作成したスクリプトを保存するパス(SFX)
-		private const string EXPORT_PATH_SFX = "Assets/Scripts/Constants/SFXName.cs";
+		/// <summary>
+		/// ショートカットキー
+		/// </summary>
+		private const string SHORTCUT_KEY = " &a";
+
+		/// <summary>
+		/// 作成したスクリプトを保存するパス(BGM)
+		/// </summary>
+		private const string EXPORT_PATH_BGM = "Assets/Template/Scripts/Constants/BGMName.cs";
+
+		/// <summary>
+		/// 作成したスクリプトを保存するパス(SFX)
+		/// </summary>
+		private const string EXPORT_PATH_SFX = "Assets/Template/Scripts/Constants/SFXName.cs";
 
 		#endregion
 
-		#region Private Methods
+		#region MenuItem Methods
 
 		/// <summary>
 		/// オーディオデータのニックネームを定数で管理する構造体を作成します
 		/// </summary>
-		[MenuItem(COMMAND_NAME + " &a")]
+		[MenuItem(COMMAND_NAME + SHORTCUT_KEY)]
 		private static void Create()
-		{
+		{			
 			if (!CanCreate()) return;
-			CreateScriptBGM();
-			CreateScriptSFX();
+
+			CreateBGMName();
+			CreateSFXName();
 			Debug.Log("AudioNameを作成完了");
 		}
 
@@ -63,21 +80,24 @@ namespace TemplateEditor.Tools
 			return isPlayingEditor && isPlaying && isCompiling;
 		}
 
-		/// <summary>
-		/// BGM用スクリプトを作成する関数
-		/// </summary>
-		private static void CreateScriptBGM()
-		{
-			var bGMList = new List<BGMData>();
-			
-			foreach (var guid in AssetDatabase.FindAssets("t:BGMData"))
-			{
-				var path = AssetDatabase.GUIDToAssetPath(guid);
-				var asset = AssetDatabase.LoadMainAssetAtPath(path);
-				var data = asset as BGMData;
-				bGMList.Add(data);
-			}
+        #endregion
 
+        #region BGMName Methods
+
+        /// <summary>
+        /// BGM用スクリプトを作成する関数
+        /// </summary>
+        private static void CreateBGMName()
+		{
+			var directoryName = Path.GetDirectoryName(EXPORT_PATH_BGM);
+
+			if (!Directory.Exists(directoryName)) Directory.CreateDirectory(directoryName);
+
+			File.WriteAllText(EXPORT_PATH_BGM, BuildBGMName(), Encoding.UTF8);
+			AssetDatabase.Refresh(ImportAssetOptions.ImportRecursive);
+		}
+		private static string BuildBGMName()
+        {
 			var builder = new StringBuilder();
 
 			//Script
@@ -99,15 +119,19 @@ namespace TemplateEditor.Tools
 						builder.Append("\t").Append("\t").AppendLine("#region Constants");
 						builder.AppendLine("\t");
 
-						foreach (var bgm in bGMList)
+						foreach (var guid in AssetDatabase.FindAssets("t:BGMData"))
 						{
+							var path = AssetDatabase.GUIDToAssetPath(guid);
+							var asset = AssetDatabase.LoadMainAssetAtPath(path);
+							var data = asset as BGMData;
+
 							builder
 								.Append("\t")
 								.Append("\t")
 								.AppendFormat
 									(@"  public const string {0} = ""{1}"";",
-										bgm.Name.Replace(" ", "_").ToUpper(),
-										bgm.Name)
+										data.Name.Replace(" ", "_").ToUpper(),
+										data.Name)
 								.AppendLine();
 						}
 
@@ -121,30 +145,28 @@ namespace TemplateEditor.Tools
 				builder.AppendLine("}");
 			}
 
-			var directoryName = Path.GetDirectoryName(EXPORT_PATH_BGM);
+			return builder.ToString();
+		}
+
+        #endregion
+
+        #region SFXName Methods
+
+        /// <summary>
+        /// SFX用スクリプトを作成する関数
+        /// </summary>
+        private static void CreateSFXName()
+		{
+			var directoryName = Path.GetDirectoryName(EXPORT_PATH_SFX);
 
 			if (!Directory.Exists(directoryName)) Directory.CreateDirectory(directoryName);
 
-			File.WriteAllText(EXPORT_PATH_BGM, builder.ToString(), Encoding.UTF8);
+			File.WriteAllText(EXPORT_PATH_SFX, BuildSFXName().ToString(), Encoding.UTF8);
 			AssetDatabase.Refresh(ImportAssetOptions.ImportRecursive);
 		}
 
-		/// <summary>
-		/// SFX用スクリプトを作成する関数
-		/// </summary>
-		private static void CreateScriptSFX()
-		{
-			var sFXList = new List<SFXData>();
-
-			//エディター
-			foreach (var guid in AssetDatabase.FindAssets("t:SFXData"))
-			{
-				var path = AssetDatabase.GUIDToAssetPath(guid);
-				var asset = AssetDatabase.LoadMainAssetAtPath(path);
-				var data = asset as SFXData;
-				sFXList.Add(data);
-			}
-
+		private static string BuildSFXName()
+        {
 			var builder = new StringBuilder();
 
 			//Script
@@ -166,15 +188,19 @@ namespace TemplateEditor.Tools
 						builder.Append("\t").Append("\t").AppendLine("#region Constants");
 						builder.AppendLine("\t");
 
-						foreach (var sfx in sFXList)
+						foreach (var guid in AssetDatabase.FindAssets("t:SFXData"))
 						{
+							var path = AssetDatabase.GUIDToAssetPath(guid);
+							var asset = AssetDatabase.LoadMainAssetAtPath(path);
+							var data = asset as SFXData;
+
 							builder
 								.Append("\t")
 								.Append("\t")
 								.AppendFormat
 									(@"  public const string {0} = ""{1}"";",
-										sfx.Name.Replace(" ", "_").ToUpper(),
-										sfx.Name)
+										data.Name.Replace(" ", "_").ToUpper(),
+										data.Name)
 								.AppendLine();
 						}
 
@@ -187,14 +213,8 @@ namespace TemplateEditor.Tools
 				builder.AppendLine("}");
 			}
 
-			var directoryName = Path.GetDirectoryName(EXPORT_PATH_SFX);
-
-			if (!Directory.Exists(directoryName)) Directory.CreateDirectory(directoryName);
-
-			File.WriteAllText(EXPORT_PATH_SFX, builder.ToString(), Encoding.UTF8);
-			AssetDatabase.Refresh(ImportAssetOptions.ImportRecursive);
+			return builder.ToString();
 		}
-
 
         #endregion
     }

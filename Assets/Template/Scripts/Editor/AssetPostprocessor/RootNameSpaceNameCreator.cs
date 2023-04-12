@@ -26,7 +26,7 @@ namespace TemplateEditor.Processor
         /// <summary>
         /// 作成したスクリプトを保存するパス
         /// </summary>
-        private const string EXPORT_PATH = "Assets/Scripts/Constants/RootNameSpaceName.cs";
+        private const string EXPORT_PATH = "Assets/Template/Scripts/Constants/RootNameSpaceName.cs";
 
         #endregion
 
@@ -40,15 +40,6 @@ namespace TemplateEditor.Processor
         #endregion
 
         #region Private Methods
-
-        private static SerializedProperty GetChildProperty(SerializedProperty parent, string name)
-        {
-            SerializedProperty child = parent.Copy();
-            child.Next(true);
-            do if (child.name == name) return child;
-            while (child.Next(false));
-            return null;
-        }
 
         /// <summary>
         /// 名前空間名を定数で管理する構造体を作成する関数
