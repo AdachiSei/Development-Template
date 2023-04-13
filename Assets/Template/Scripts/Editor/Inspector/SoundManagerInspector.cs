@@ -64,14 +64,14 @@ namespace TemplateEditor.Inspector
                     var intField =
                         EditorGUILayout
                             .IntField
-                                ("ê∂ê¨êî", soundManager.AudioSourceCount);
+                                ("ê∂ê¨êî", SoundManagerData.AudioSourceCount);
 
                     var lessThanZero = intField < 0;
                     var overHundred = intField > _maxValue;
                     if (lessThanZero) intField = 0;
                     else if (overHundred) intField = _maxValue;
 
-                    soundManager.SetAudioCount(intField);
+                    SoundManagerData.SetAudioSourceCount(intField);
 
                     if (GUILayout.Button("CreateSFX"))
                     {

@@ -19,7 +19,6 @@ namespace Template.Manager
         public float MasterVolume => _masterVolume;
         public float BGMVolume => _bgmVolume;
         public float SFXVolume => _sfxVolume;
-        public int AudioSourceCount { get; private set; }
         public bool IsStopingToCreate { get; private set; }
 
         #endregion
@@ -428,15 +427,6 @@ namespace Template.Manager
         #region Inspector Methods
 
         /// <summary>
-        /// ¶¬‚·‚éSFX—pAudio‚Ì”‚ğ•ÏX‚·‚éŠÖ”
-        /// </summary>
-        /// <param name="count">¶¬‚·‚éAudio‚Ì”</param>
-        public void SetAudioCount(int count)
-        {
-            AudioSourceCount = count;
-        }
-
-        /// <summary>
         /// BGM—p‚ÌPrefab‚ğ¶¬‚·‚éŠÖ”
         /// </summary>
         public void CreateBGM()
@@ -480,7 +470,7 @@ namespace Template.Manager
 
             InitSFX();
 
-            for (var i = 0; i < AudioSourceCount; i++)
+            for (var i = 0; i < SoundManagerData.AudioSourceCount; i++)
             {
                 var audio = Instantiate(_audioPrefab);
                 audio.transform.SetParent(_sFXParent.transform);
@@ -512,10 +502,10 @@ namespace Template.Manager
         #region Editor Methods
 
         public void ResizeBGMClips(int length) =>
-            Array.Resize(ref _bgmDatas, length);
+            _bgmDatas = new BGMData[length];
 
         public void ResizeSFXClips(int length) =>
-            Array.Resize(ref _sfxDatas, length);
+            _sfxDatas = new SFXData[length];
 
         public void AddBGMClip(int index, BGMData clip) =>
             _bgmDatas[index] = clip;
@@ -560,7 +550,7 @@ namespace Template.Manager
             go.transform.parent = transform;
             _audioPrefab = go.AddComponent<AudioSource>();
             _audioPrefab.playOnAwake = false;
-            _audioPrefab.name = "XD";
+            _audioPrefab.name = "AudioSource";
         }
 
         /// <summary>
@@ -570,12 +560,10 @@ namespace Template.Manager
         {
             if (_bGMParent == null) return;
 
-            while (true)
+            var parent = _bGMParent.transform;
+            while (parent.childCount != 0)
             {
-                var children = _bGMParent.transform;
-                var empty = children.childCount == 0;
-                if (empty) break;
-                var go = children.GetChild(0).gameObject;
+                var go = parent.GetChild(0).gameObject;
                 DestroyImmediate(go);
             }
         }
@@ -587,11 +575,9 @@ namespace Template.Manager
         {
             if (_sFXParent == null) return;
 
-            while (true)
+            var children = _sFXParent.transform;
+            while (children.childCount != 0)
             {
-                var children = _sFXParent.transform;
-                var empty = children.childCount == 0;
-                if (empty) break;
                 var go = children.GetChild(0).gameObject;
                 DestroyImmediate(go);
             }
