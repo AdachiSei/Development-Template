@@ -1,6 +1,6 @@
 using Cysharp.Threading.Tasks;
 
-namespace Template.Adapter
+namespace Template.Manager
 {
     /// <summary>
     /// フェードを呼び出す用のインターフェース

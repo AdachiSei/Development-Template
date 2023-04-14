@@ -1,11 +1,9 @@
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Template.Adapter
+namespace Template.Manager
 {
     /// <summary>
     /// フェードを管理するViewの機能を持つアダプティー
@@ -42,9 +40,9 @@ namespace Template.Adapter
 
         #endregion
 
-        #region Public Methods
+        #region Private Methods
 
-        public async UniTask FadeIn()
+        protected async UniTask FadeIn()
         {
             _loadingImage?.gameObject.SetActive(false);
             _loadingImage?.DOKill();
@@ -52,7 +50,7 @@ namespace Template.Adapter
             await _loadingPanel?.DOFade(0f, _fadeTime).AsyncWaitForCompletion();
         }
 
-        public async UniTask FadeOut()
+        protected async UniTask FadeOut()
         {
             if (_loadingPanel != null)
                 await _loadingPanel.DOFade(MAX_ALPFA, _fadeTime).AsyncWaitForCompletion();

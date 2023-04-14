@@ -24,25 +24,43 @@ namespace Template.Manager
 
         #region Events
 
-        public event Action OnStartGame;
-        public event Func<UniTask> OnFadeIn;
-        public event Func<UniTask> OnFadeOut;
+        private event Action OnStartGame;
+        private event Func<UniTask> OnFadeIn;
+        private event Func<UniTask> OnFadeOut;
 
         #endregion
 
         #region Public Methods
 
-        public async void LoadScene(string name)
+        public async void LoadScene(string sceneName)
         {
             if (_isLoading) return;
             _isLoading = true;
 
             if (OnFadeOut != null) await OnFadeOut();
-            await SceneManager.LoadSceneAsync(name);
+            await SceneManager.LoadSceneAsync(sceneName);
             await OnFadeIn();
 
             _isLoading = false;
             OnStartGame?.Invoke();
+        }
+
+        public void RegisterStartGame(Action startGame)
+        {
+            OnStartGame -= startGame;
+            OnStartGame += startGame;
+        }
+
+        public void RegisterFadeIn(Func<UniTask> FadeInMethod)
+        {
+            OnFadeIn -= FadeInMethod;
+            OnFadeIn += FadeInMethod;
+        }
+
+        public void RegisterFadeOut(Func<UniTask> FadeOutMethod)
+        {
+            OnFadeOut -= FadeOutMethod;
+            OnFadeOut += FadeOutMethod;
         }
 
         #endregion

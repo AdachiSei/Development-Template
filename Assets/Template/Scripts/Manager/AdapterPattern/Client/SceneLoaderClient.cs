@@ -1,13 +1,11 @@
-using Template.Manager;
 using UnityEngine;
 
-namespace Template.Adapter
+namespace Template.Manager
 {
     /// <summary>
     /// シーンをロード時にフェードをするクライアント
     /// </summary>
     [RequireComponent(typeof(FadeViewAdapter))]
-    [RequireComponent(typeof(DontDestroy))]
     public class SceneLoaderClient : MonoBehaviour
     {
         #region Properties
@@ -29,8 +27,8 @@ namespace Template.Adapter
             if (TryGetComponent(out _fadable))
             {
                 _fadable.FadeInMethod();
-                SceneLoader.OnFadeIn += _fadable.FadeInMethod;
-                SceneLoader.OnFadeOut += _fadable.FadeOutMethod;
+                SceneLoader.RegisterFadeIn(_fadable.FadeInMethod);
+                SceneLoader.RegisterFadeOut(_fadable.FadeOutMethod);
             }
         }
 
