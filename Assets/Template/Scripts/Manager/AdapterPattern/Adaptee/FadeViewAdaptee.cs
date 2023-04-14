@@ -41,5 +41,32 @@ namespace Template.Adapter
         protected const float MAX_ALPFA = 1f;
 
         #endregion
+
+        #region Public Methods
+
+        public async UniTask FadeIn()
+        {
+            _loadingImage?.gameObject.SetActive(false);
+            _loadingImage?.DOKill();
+
+            await _loadingPanel?.DOFade(0f, _fadeTime).AsyncWaitForCompletion();
+        }
+
+        public async UniTask FadeOut()
+        {
+            if (_loadingPanel != null)
+                await _loadingPanel.DOFade(MAX_ALPFA, _fadeTime).AsyncWaitForCompletion();
+
+            _loadingPanel?.DOKill();
+
+            _loadingImage?.gameObject.SetActive(true);
+            _loadingImage?
+                .transform
+                .DORotate(_rotDir, LOADING_IMAGE_SPEED, RotateMode.FastBeyond360)
+                .SetEase(Ease.Linear)
+                .SetLoops(LOOP_VALUE);
+        }
+
+        #endregion
     }
 }

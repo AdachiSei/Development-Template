@@ -7,32 +7,32 @@ namespace Template.Manager
     /// <summary>
     /// シーンを読み込むスクリプト
     /// </summary>
-    public static class SceneLoader
+    public class SceneLoader
     {
         #region Properties
 
-        public static string ActiveSceneName =>
+        public string ActiveSceneName =>
             SceneManager.GetActiveScene().name;
 
         #endregion
 
         #region Member Variables
 
-        private static bool _isLoading = false;
+        private bool _isLoading = false;
 
         #endregion
 
         #region Events
 
-        public static event Action OnStartGame;
-        public static event Func<UniTask> OnFadeIn;
-        public static event Func<UniTask> OnFadeOut;
+        public event Action OnStartGame;
+        public event Func<UniTask> OnFadeIn;
+        public event Func<UniTask> OnFadeOut;
 
         #endregion
 
         #region Public Methods
 
-        public async static void LoadScene(string name)
+        public async void LoadScene(string name)
         {
             if (_isLoading) return;
             _isLoading = true;

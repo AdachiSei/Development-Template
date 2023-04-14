@@ -10,33 +10,20 @@ namespace Template.Adapter
     /// フェードを管理するViewの機能を持つアダプティーと
     /// フェードを呼び出す用のインターフェースを結合するアダプター
     /// </summary>
-    [RequireComponent(typeof(FadeViewClient))]
+    [RequireComponent(typeof(SceneLoaderClient))]
     [RequireComponent(typeof(DontDestroy))]
     public class FadeViewAdapter : FadeViewAdaptee, IFadable
     {
         #region Public Methods
 
-        public async UniTask FadeIn()
+        public async UniTask FadeInMethod()
         {
-            _loadingImage?.gameObject.SetActive(false);
-            _loadingImage?.DOKill();
-
-            await _loadingPanel?.DOFade(0f, _fadeTime).AsyncWaitForCompletion();
+            await FadeIn();
         }
 
-        public async UniTask FadeOut()
+        public async UniTask FadeOutMethod()
         {
-            if (_loadingPanel != null)
-                await _loadingPanel.DOFade(MAX_ALPFA, _fadeTime).AsyncWaitForCompletion();
-
-            _loadingPanel?.DOKill();
-
-            _loadingImage?.gameObject.SetActive(true);
-            _loadingImage?
-                .transform
-                .DORotate(_rotDir, LOADING_IMAGE_SPEED, RotateMode.FastBeyond360)
-                .SetEase(Ease.Linear)
-                .SetLoops(LOOP_VALUE);
+            await FadeOut();
         }
 
         #endregion
