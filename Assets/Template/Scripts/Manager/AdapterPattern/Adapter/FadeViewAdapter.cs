@@ -7,7 +7,7 @@ namespace Template.Manager
     /// フェードを管理するViewの機能を持つアダプティーと
     /// フェードを呼び出す用のインターフェースを結合するアダプター
     /// </summary>
-    [RequireComponent(typeof(SceneLoaderClient))]
+    [RequireComponent(typeof(SceneLoadCaller))]
     public class FadeViewAdapter : FadeViewAdaptee, IFadable
     {
         #region Public Methods

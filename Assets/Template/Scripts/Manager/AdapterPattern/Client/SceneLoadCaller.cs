@@ -3,10 +3,10 @@ using UnityEngine;
 namespace Template.Manager
 {
     /// <summary>
-    /// シーンをロード時にフェードをするクライアント
+    /// シーンローダーの関数を呼ぶためのクラス
     /// </summary>
     [RequireComponent(typeof(FadeViewAdapter))]
-    public class SceneLoaderClient : MonoBehaviour
+    public class SceneLoadCaller : MonoBehaviour
     {
         #region Properties
 
