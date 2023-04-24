@@ -4,7 +4,7 @@ using UnityEditor;
 using UnityEngine;
 
 [CustomPropertyDrawer(typeof(FindTypeAttribute))]
-public class FindTypeDrawer : PropertyDrawer
+public class FindTypeDrawer : MultiPropertyDrawerBase
 {
     public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
     {

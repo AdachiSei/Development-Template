@@ -53,11 +53,12 @@ public class MultiPropertyDrawerBase : PropertyDrawer
 
         if (attr.Attributes == null)
         {
-            attr.Attributes = fieldInfo
-                .GetCustomAttributes(typeof(MultiPropertyBaseAttribute), false)
-                .Cast<MultiPropertyBaseAttribute>()
-                .OrderBy(x => x.order)
-                .ToArray();
+            attr.SetAttributes
+                (fieldInfo
+                    .GetCustomAttributes(typeof(MultiPropertyBaseAttribute), false)
+                    .Cast<MultiPropertyBaseAttribute>()
+                    .OrderBy(x => x.order)
+                    .ToArray());
         }
 
         return attr.Attributes;
@@ -69,11 +70,12 @@ public class MultiPropertyDrawerBase : PropertyDrawer
 
         if (attr.PropertyDrawers == null)
         {
-            attr.PropertyDrawers = fieldInfo
-                .GetCustomAttributes(typeof(MultiPropertyBaseAttribute), false)
-                .OfType<IAttributePropertyDrawer>()
-                .OrderBy(x => ((MultiPropertyBaseAttribute)x).order)
-                .ToArray();
+            attr.SetPropertyDrawers
+                (fieldInfo
+                    .GetCustomAttributes(typeof(MultiPropertyBaseAttribute), false)
+                    .OfType<IAttributePropertyDrawer>()
+                    .OrderBy(x => ((MultiPropertyBaseAttribute)x).order)
+                    .ToArray());
         }
 
         return attr.PropertyDrawers;

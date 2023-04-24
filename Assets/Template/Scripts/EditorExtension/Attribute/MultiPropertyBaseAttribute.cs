@@ -6,8 +6,8 @@ using UnityEditor;
 
 public abstract class MultiPropertyBaseAttribute : PropertyAttribute
 {
-    public MultiPropertyBaseAttribute[] Attributes;
-    public IAttributePropertyDrawer[] PropertyDrawers;
+    public MultiPropertyBaseAttribute[] Attributes { get; private set; }
+    public IAttributePropertyDrawer[] PropertyDrawers { get; private set; }
 
     #if UNITY_EDITOR
 
@@ -19,6 +19,16 @@ public abstract class MultiPropertyBaseAttribute : PropertyAttribute
     public virtual bool IsVisible(SerializedProperty property)
     {
         return true;
+    }
+
+    public void SetAttributes(MultiPropertyBaseAttribute[] attributes)
+    {
+        Attributes = attributes;
+    }
+
+    public void SetPropertyDrawers(IAttributePropertyDrawer[] propertyDrawers)
+    {
+        PropertyDrawers = propertyDrawers;
     }
 
     #endif
