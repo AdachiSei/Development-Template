@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text;
 using Template.Constant;
 using Template.Extension;
@@ -17,13 +18,13 @@ namespace TemplateEditor.Asset
 		#region Constants
 
 		// ƒRƒ}ƒ“ƒh–¼
-		private const string COMMAND_NAME = "Assets/Inspector Extension Script";
+		private const string COMMAND_NAME = "Assets/Create/Inspector Extension Script";
 
 		#endregion
 
 		#region Private Methods
 
-		[MenuItem(COMMAND_NAME)]
+		[MenuItem(COMMAND_NAME, priority = 70)]
         private static void CreateEditorExtension()
         {
             var filtered = Selection.GetFiltered
@@ -47,9 +48,7 @@ namespace TemplateEditor.Asset
 		[MenuItem(COMMAND_NAME, true)]
 		private static bool CanCreate()
 		{
-			var isPlayingEditor = !EditorApplication.isPlaying;
-			var isPlaying = !Application.isPlaying;
-			return isPlayingEditor && isPlaying;
+			return Selection.GetFiltered(typeof(MonoScript), SelectionMode.Assets).Any();
 		}
 
 		private static void CreateScript(string directoryname, string fileName)

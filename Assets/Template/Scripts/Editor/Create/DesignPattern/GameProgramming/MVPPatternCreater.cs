@@ -36,7 +36,7 @@ namespace TemplateEditor.Asset.Create
 		/// <summary>
 		/// プライオリティ
 		/// </summary>
-		private const int PRIORITY = 70;
+		private const int PRIORITY = 69;
 
 		/// <summary>
 		/// 作成したスクリプトを保存するパス
