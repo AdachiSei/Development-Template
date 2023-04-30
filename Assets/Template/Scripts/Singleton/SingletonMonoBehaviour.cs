@@ -6,65 +6,39 @@ namespace Template.Singleton
     /// <summary>
     /// シングルトンパターン
     /// </summary>
-    public abstract class SingletonMonoBehaviour<T> : MonoBehaviour where T : MonoBehaviour
+    public abstract class SingletonMonoBehaviour<T> : MonoBehaviour where T : SingletonMonoBehaviour<T>
     {
-        #region Properties
-
-        public static T Instance
+        public static T I
         {
             get
             {
-                if (instance == null)
-                {
-                    Type t = typeof(T);
+                if (_instance == null)
+                    Debug.LogWarning($"{typeof(T)}{LOG}");
 
-                    instance = (T)FindObjectOfType(t);
-                    if (instance == null)
-                    {
-                        Debug.LogWarning($"{t}をアタッチしているオブジェクトがありません");
-                    }
-                }
-
-                return instance;
+                return  _instance;
             }
         }
 
-        #endregion
+        protected virtual bool IsRemoveComponent => false;
 
-        #region Member Variables
+        private static T _instance = null;
 
-        private static T instance;
+        private const string LOG = "をアタッチしているオブジェクトがありません";
 
-        #endregion
-
-        #region Unity Methods
-
-        virtual protected void Awake()
+        protected virtual void Awake()
         {
-            // 他のゲームオブジェクトにアタッチされているか調べる
-            // アタッチされている場合は破棄する。
-            CheckInstance();
+            if (_instance == null)
+                _instance = this as T;
+            else if (IsRemoveComponent)
+                Destroy(this);
+            else
+                Destroy(gameObject);
         }
 
-        #endregion
-
-        #region Private Methods
-
-        protected bool CheckInstance()
+        protected virtual void OnDestroy()
         {
-            if (instance == null)
-            {
-                instance = this as T;
-                return true;
-            }
-            else if (Instance == this)
-            {
-                return true;
-            }
-            Destroy(gameObject);
-            return false;
+            if (_instance == this)
+                _instance = null;
         }
-
-        #endregion
     }
 }
