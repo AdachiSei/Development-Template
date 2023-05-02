@@ -5,7 +5,7 @@ using UnityEngine.SceneManagement;
 
 namespace TemplateEditor.Build
 {
-    public static class Builder
+    public static class BuildAndRunManager
     {
         #region Constants
 
