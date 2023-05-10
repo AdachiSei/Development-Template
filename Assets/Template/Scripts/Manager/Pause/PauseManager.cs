@@ -33,12 +33,12 @@ namespace Template.Manager
                 if (!_isPausing)
                 {
                     _isPausing = true;
-                    OnPause();
+                    OnPause?.Invoke();
                 }
                 else
                 {
                     _isPausing = false;
-                    OnResume();
+                    OnResume?.Invoke();
                 }
             }
         }
