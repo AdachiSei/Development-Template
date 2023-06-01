@@ -8,7 +8,7 @@ namespace Template.Manager
     /// <summary>
     /// フェードを管理するViewの機能を持つアダプティー
     /// </summary>
-    public abstract class FadeViewAdaptee : MonoBehaviour
+    public abstract class FadeViewBase : MonoBehaviour
     {
         #region Inspector Variables
 

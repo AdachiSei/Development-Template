@@ -19,7 +19,8 @@ namespace Template.Manager
         public float MasterVolume => _masterVolume;
         public float BGMVolume => _bgmVolume;
         public float SFXVolume => _sfxVolume;
-        public bool IsStopingToCreate { get; private set; }
+        public int AudioSourceCount { get; private set; } = 0;
+        public bool IsStopingToCreate { get; private set; } = false;
 
         #endregion
 
@@ -82,7 +83,7 @@ namespace Template.Manager
 
         #endregion
 
-        #region Private Variables
+        #region Member Variables
 
         private int _newAudioSourceCount = 0;
         private bool _isPausing = false;
@@ -94,31 +95,33 @@ namespace Template.Manager
         private void Awake()
         {
             //オーディオソースのプレファブが無かったら
-            if (_audioPrefab == null) CreateAudio();
+            if (_audioPrefab == null)
+                CreateAudio();
 
             //BGMを格納する親オブジェクトが無かったら
-            if (_bGMParent == null) CreateBGMParent();
+            if (_bGMParent == null)
+                CreateBGMParent();
 
             //SFXを格納する親オブジェクトが無かったら
-            if (_sFXParent == null) CreateSFXParent();
+            if (_sFXParent == null)
+                CreateSFXParent();
 
-            if (_audioPrefab.playOnAwake) _audioPrefab.playOnAwake = false;
+            if (_audioPrefab.playOnAwake)
+                _audioPrefab.playOnAwake = false;
 
-            var soundManager = this;
-
-            soundManager
+            this
                 .ObserveEveryValueChanged
                     (soundManager => soundManager.MasterVolume)
                 .Subscribe
                     (volume => ReflectMasterVolume());
 
-            soundManager
+            this
                 .ObserveEveryValueChanged
                     (soundManager => soundManager.BGMVolume)
                 .Subscribe
                     (volume => ReflectBGMVolume());
 
-            soundManager
+            this
                 .ObserveEveryValueChanged
                     (soundManager => soundManager.SFXVolume)
                 .Subscribe
@@ -126,7 +129,7 @@ namespace Template.Manager
 
             PlayBGM(_name);
 
-            if(_pauseManager)
+            if (_pauseManager)
             {
                 _pauseManager.OnPause += Pause;
                 _pauseManager.OnResume += Resume;
@@ -231,7 +234,7 @@ namespace Template.Manager
                             audioSource.Play();
 
                             await UniTask.WaitUntil(() => !audioSource.isPlaying && !_isPausing);
-                            
+
                             audioSource.name = privName;
                             audioSource.clip = null;
                             return;
@@ -294,7 +297,7 @@ namespace Template.Manager
                             audioSource.Play();
 
                             await UniTask.WaitUntil(() => !audioSource.isPlaying && !_isPausing);
-                            
+
                             audioSource.name = privName;
                             audioSource.clip = null;
                             audioSource.gameObject.transform.SetParent(_sFXParent);
@@ -402,12 +405,8 @@ namespace Template.Manager
         public void ReflectBGMVolume()
         {
             foreach (var audioSource in _bgmAudioSources)
-            {
                 if (audioSource.isPlaying)
-                {
                     audioSource.volume = _masterVolume * _bgmVolume;
-                }
-            }
         }
 
         /// <summary>
@@ -416,104 +415,9 @@ namespace Template.Manager
         public void ReflectSFXVolume()
         {
             foreach (var audioSource in _sfxAudioSources)
-            {
                 if (audioSource.isPlaying)
-                {
                     audioSource.volume = _masterVolume * _sfxVolume;
-                }
-            }
         }
-
-        #region Inspector Methods
-
-        /// <summary>
-        /// BGM用のPrefabを生成する関数
-        /// </summary>
-        public void CreateBGM()
-        {
-            if (_audioPrefab == null) CreateAudio();
-            if (_bGMParent == null) CreateBGMParent();
-
-            IsStopingToCreate = false;
-
-            _bgmAudioSources.Clear();
-
-            InitBGM();
-
-            for (var i = 0; i < _bgmDatas.Length; i++)
-            {
-                var audio = Instantiate(_audioPrefab);
-                audio.transform.SetParent(_bGMParent.transform);
-                audio.transform.localPosition = Vector2.zero;
-                _bgmAudioSources.Add(audio);
-
-                audio.name = _bgmDatas[i].Name;
-                audio.clip = _bgmDatas[i].BGMClip;
-                if (audio.clip != null) audio.clip.name = _bgmDatas[i].Name;
-                audio.loop = true;
-            }
-
-            _bgmAudioSources = new(_bgmAudioSources.Distinct());
-        }
-
-        /// <summary>
-        /// SFX用のPrefabを生成する関数
-        /// </summary>
-        public void CreateSFX()
-        {
-            if (_audioPrefab == null) CreateAudio();
-            if (_sFXParent == null) CreateSFXParent();
-
-            IsStopingToCreate = false;
-
-            _sfxAudioSources.Clear();
-
-            InitSFX();
-
-            for (var i = 0; i < SoundManagerData.AudioSourceCount; i++)
-            {
-                var audio = Instantiate(_audioPrefab);
-                audio.transform.SetParent(_sFXParent.transform);
-                audio.transform.localPosition = Vector2.zero;
-
-                audio.loop = false;
-                audio.name = $"SFX {i.ToString("D3")}";
-
-                _sfxAudioSources.Add(audio);
-            }
-        }
-
-        /// <summary>
-        /// BGM&SFX用のPrefabを全削除する関数
-        /// </summary>
-        public void Init()
-        {
-            IsStopingToCreate = true;
-
-            _bgmAudioSources.Clear();
-            _sfxAudioSources.Clear();
-
-            InitBGM();
-            InitSFX();
-        }
-
-        #endregion
-
-        #region Editor Methods
-
-        public void ResizeBGMClips(int length) =>
-            _bgmDatas = new BGMData[length];
-
-        public void ResizeSFXClips(int length) =>
-            _sfxDatas = new SFXData[length];
-
-        public void AddBGMClip(int index, BGMData clip) =>
-            _bgmDatas[index] = clip;
-
-        public void AddSFXClip(int index, SFXData clip) =>
-            _sfxDatas[index] = clip;
-
-        #endregion
 
         #endregion
 
@@ -591,13 +495,12 @@ namespace Template.Manager
             _isPausing = true;
 
             foreach (var bGMAudio in _bgmAudioSources)
-            {
-                if (bGMAudio.isPlaying) bGMAudio.Pause();
-            }
+                if (bGMAudio.isPlaying)
+                    bGMAudio.Pause();
+
             foreach (var sFXAudio in _sfxAudioSources)
-            {
-                if (sFXAudio.isPlaying) sFXAudio.Pause();
-            }
+                if (sFXAudio.isPlaying)
+                    sFXAudio.Pause();
         }
 
         /// <summary>
@@ -607,9 +510,116 @@ namespace Template.Manager
         {
             _isPausing = false;
 
-            foreach (var bgm in _bgmAudioSources) bgm.UnPause();
-            foreach (var sfx in _sfxAudioSources) sfx.UnPause();
+            foreach (var bgm in _bgmAudioSources)
+                bgm.UnPause();
+
+            foreach (var sfx in _sfxAudioSources)
+                sfx.UnPause();
         }
+
+        #endregion
+
+        #region Editor Methods
+
+        #if UNITY_EDITOR
+
+        /// <summary>
+        /// BGM用のPrefabを生成する関数
+        /// </summary>
+        public void CreateBGM()
+        {
+            if (_audioPrefab == null) CreateAudio();
+            if (_bGMParent == null) CreateBGMParent();
+
+            IsStopingToCreate = false;
+
+            _bgmAudioSources.Clear();
+
+            InitBGM();
+
+            for (var i = 0; i < _bgmDatas.Length; i++)
+            {
+                var audio = Instantiate(_audioPrefab);
+                audio.transform.SetParent(_bGMParent.transform);
+                audio.transform.localPosition = Vector2.zero;
+                _bgmAudioSources.Add(audio);
+
+                audio.name = _bgmDatas[i].Name;
+                audio.clip = _bgmDatas[i].BGMClip;
+                if (audio.clip != null) audio.clip.name = _bgmDatas[i].Name;
+                audio.loop = true;
+            }
+
+            _bgmAudioSources = new(_bgmAudioSources.Distinct());
+        }
+
+        /// <summary>
+        /// SFX用のPrefabを生成する関数
+        /// </summary>
+        public void CreateSFX()
+        {
+            if (_audioPrefab == null) CreateAudio();
+            if (_sFXParent == null) CreateSFXParent();
+
+            IsStopingToCreate = false;
+
+            _sfxAudioSources.Clear();
+
+            InitSFX();
+
+            for (var i = 0; i < AudioSourceCount; i++)
+            {
+                var audio = Instantiate(_audioPrefab);
+                audio.transform.SetParent(_sFXParent.transform);
+                audio.transform.localPosition = Vector2.zero;
+
+                audio.loop = false;
+                audio.name = $"SFX {i.ToString("D3")}";
+
+                _sfxAudioSources.Add(audio);
+            }
+        }
+
+        /// <summary>
+        /// BGM&SFX用のPrefabを全削除する関数
+        /// </summary>
+        public void Init()
+        {
+            IsStopingToCreate = true;
+
+            _bgmAudioSources.Clear();
+            _sfxAudioSources.Clear();
+
+            InitBGM();
+            InitSFX();
+        }
+
+        public void ResizeBGMClips(int length)
+        {
+            _bgmDatas = new BGMData[length];
+        }
+
+        public void ResizeSFXClips(int length)
+        {
+            _sfxDatas = new SFXData[length];
+        }
+
+        public void AddBGMClip(int index, BGMData clip)
+        {
+            _bgmDatas[index] = clip;
+        }
+
+        public void AddSFXClip(int index, SFXData clip)
+        {
+            _sfxDatas[index] = clip;
+        }
+
+        public void SetAudioSourceCount(int count)
+        {
+            AudioSourceCount = count;
+        }
+
+        #endif
 
         #endregion
     }

@@ -1,3 +1,4 @@
+using Template.Extension;
 using UnityEngine;
 
 namespace Template.Manager
@@ -5,7 +6,7 @@ namespace Template.Manager
     /// <summary>
     /// シーンローダーの関数を呼ぶためのクラス
     /// </summary>
-    [RequireComponent(typeof(FadeViewAdapter))]
+    [RequireComponent(typeof(FadeView))]
     public class SceneLoadCaller : MonoBehaviour
     {
         #region Properties
@@ -14,23 +15,34 @@ namespace Template.Manager
 
         #endregion
 
-        #region Member Variables
-
-        private IFadable _fadable = null;
-
-        #endregion
-
         #region Unity Methods
 
         private void Awake()
         {
-            if (TryGetComponent(out _fadable))
+            if (TryGetComponent(out IFadable fadable))
             {
-                _fadable.FadeInMethod();
-                SceneLoader.RegisterFadeIn(_fadable.FadeInMethod);
-                SceneLoader.RegisterFadeOut(_fadable.FadeOutMethod);
+                fadable.FadeInMethod();
+                SceneLoader.RegisterFadeIn(fadable.FadeInMethod);
+                SceneLoader.RegisterFadeOut(fadable.FadeOutMethod);
             }
         }
+
+        #endregion
+
+        #region Editor Methods
+
+        #if UNITY_EDITOR
+
+        public void RegisterLoadSceneMethod()
+        {
+            foreach (var mb in FindObjectsOfType<MonoBehaviour>())
+            {
+                if(mb.TryGetComponent(out IloadableScene loadableScene))
+                    loadableScene.LoadScene += SceneLoader.LoadScene;
+            }
+        }
+
+        #endif
 
         #endregion
     }

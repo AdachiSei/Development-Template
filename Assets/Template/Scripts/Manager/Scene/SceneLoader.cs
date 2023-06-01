@@ -63,6 +63,21 @@ namespace Template.Manager
             OnFadeOut += FadeOutMethod;
         }
 
+        public void ReleaseStartGame(Action startGame)
+        {
+            OnStartGame -= startGame;
+        }
+
+        public void ReleaseFadeIn(Func<UniTask> FadeInMethod)
+        {
+            OnFadeIn -= FadeInMethod;
+        }
+
+        public void ReleaseFadeOut(Func<UniTask> FadeOutMethod)
+        {
+            OnFadeOut -= FadeOutMethod;
+        }
+
         #endregion
     }
 }

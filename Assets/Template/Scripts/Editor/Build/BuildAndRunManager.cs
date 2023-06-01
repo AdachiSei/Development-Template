@@ -25,10 +25,9 @@ namespace TemplateEditor.Build
         private static void BuildAndRun(string appName, string sceneName)
         {
             var outputDirectory = Path.Combine(BUILD_DIRECTORY_NAME, appName);
+
             if (!Directory.Exists(outputDirectory))
-            {
                 Directory.CreateDirectory(outputDirectory);
-            }
 
             var targetScene = EditorBuildSettings.scenes.First(scene => Path.GetFileNameWithoutExtension(scene.path) == sceneName);
             var buildTarget = EditorUserBuildSettings.activeBuildTarget;
