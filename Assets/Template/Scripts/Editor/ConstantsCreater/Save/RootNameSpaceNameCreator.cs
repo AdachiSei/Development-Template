@@ -78,7 +78,7 @@ namespace TemplateEditor.Processor
                     builder.Append("\t").AppendLine("/// <summary>");
                     builder.Append("\t").AppendLine("/// 名前空間名を定数で管理する構造体");
                     builder.Append("\t").AppendLine("/// </summary>");
-                    builder.Append("\t").AppendFormat("public struct {0}", FILENAME).AppendLine();
+                    builder.Append("\t").AppendFormat("public static class {0}", FILENAME).AppendLine();
                     builder.Append("\t").AppendLine("{");
 
                     //Constants

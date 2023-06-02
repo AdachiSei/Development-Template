@@ -3,7 +3,7 @@
 	/// <summary>
 	/// シーン名を定数で管理する構造体
 	/// </summary>
-	public struct SceneName
+	public static class SceneName
 	{
 		#region Constants
 	

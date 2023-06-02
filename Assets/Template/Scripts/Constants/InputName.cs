@@ -3,7 +3,7 @@
 	/// <summary>
 	/// インプット名を定数で管理する構造体
 	/// </summary>
-	public struct InputName
+	public static class InputName
 	{
 		#region Constants
 	

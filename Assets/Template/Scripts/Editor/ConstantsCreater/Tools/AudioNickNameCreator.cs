@@ -111,7 +111,7 @@ namespace TemplateEditor.Tools
 					builder.Append("\t").AppendLine("/// <summary>");
 					builder.Append("\t").AppendLine("/// オーディオデータのニックネームを定数で管理する構造体");
 					builder.Append("\t").AppendLine("/// </summary>");
-					builder.Append("\t").AppendFormat("public struct {0}", FILENAME_BGM).AppendLine();
+					builder.Append("\t").AppendFormat("public static class {0}", FILENAME_BGM).AppendLine();
 					builder.Append("\t").AppendLine("{");
 
 					//Constants
@@ -180,7 +180,7 @@ namespace TemplateEditor.Tools
 					builder.Append("\t").AppendLine("/// <summary>");
 					builder.Append("\t").AppendLine("/// 効果音名を定数で管理するクラス");
 					builder.Append("\t").AppendLine("/// </summary>");
-					builder.Append("\t").AppendFormat("public struct {0}", FILENAME_SFX).AppendLine();
+					builder.Append("\t").AppendFormat("public static class {0}", FILENAME_SFX).AppendLine();
 					builder.Append("\t").AppendLine("{");
 
 					//Constants
