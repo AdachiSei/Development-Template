@@ -29,7 +29,7 @@ namespace TemplateEditor.Build
             if (!Directory.Exists(outputDirectory))
                 Directory.CreateDirectory(outputDirectory);
 
-            var targetScene = EditorBuildSettings.scenes.First(scene => Path.GetFileNameWithoutExtension(scene.path) == sceneName);
+            var targetScene = EditorBuildSettings.scenes.FirstOrDefalut(scene => Path.GetFileNameWithoutExtension(scene.path) == sceneName);
             var buildTarget = EditorUserBuildSettings.activeBuildTarget;
             var locationPath = Path.Combine(outputDirectory, MakeApplicationFileName(appName, buildTarget));
             var buildOptions = BuildOptions.SymlinkSources | BuildOptions.AutoRunPlayer;
