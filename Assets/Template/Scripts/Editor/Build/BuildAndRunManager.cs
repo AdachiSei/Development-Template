@@ -1,6 +1,7 @@
 using System.IO;
 using System.Linq;
 using UnityEditor;
+using UnityEngine;
 using UnityEngine.SceneManagement;
 
 namespace TemplateEditor.Build
@@ -29,7 +30,16 @@ namespace TemplateEditor.Build
             if (!Directory.Exists(outputDirectory))
                 Directory.CreateDirectory(outputDirectory);
 
-            var targetScene = EditorBuildSettings.scenes.FirstOrDefalut(scene => Path.GetFileNameWithoutExtension(scene.path) == sceneName);
+            var targetScene = 
+                EditorBuildSettings
+                    .scenes
+                    .FirstOrDefault
+                    (scene => Path.GetFileNameWithoutExtension(scene.path) == sceneName);
+            if (targetScene == null)
+            {
+                Debug.LogError("シーンをビルドセッティングスに追加してください");
+                return;
+            }
             var buildTarget = EditorUserBuildSettings.activeBuildTarget;
             var locationPath = Path.Combine(outputDirectory, MakeApplicationFileName(appName, buildTarget));
             var buildOptions = BuildOptions.SymlinkSources | BuildOptions.AutoRunPlayer;
