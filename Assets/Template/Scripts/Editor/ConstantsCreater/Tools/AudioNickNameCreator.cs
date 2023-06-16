@@ -130,8 +130,8 @@ namespace TemplateEditor.Tools
 								.Append("\t")
 								.AppendFormat
 									(@"  public const string {0} = ""{1}"";",
-										data.Name.Replace(" ", "_").ToUpper(),
-										data.Name)
+										data.NickName.Replace(" ", "_").ToUpper(),
+										data.NickName)
 								.AppendLine();
 						}
 
@@ -199,8 +199,8 @@ namespace TemplateEditor.Tools
 								.Append("\t")
 								.AppendFormat
 									(@"  public const string {0} = ""{1}"";",
-										data.Name.Replace(" ", "_").ToUpper(),
-										data.Name)
+										data.NickName.Replace(" ", "_").ToUpper(),
+										data.NickName)
 								.AppendLine();
 						}
 

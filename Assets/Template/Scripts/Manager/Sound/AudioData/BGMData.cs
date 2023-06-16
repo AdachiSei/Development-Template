@@ -10,7 +10,7 @@ public class BGMData : ScriptableObject
 {
     #region Properties
 
-    public string Name => _name;
+    public string NickName => _nickName;
     public int Volume => _volume;
     public AudioClip BGMClip => _bgmClip;
 
@@ -20,7 +20,7 @@ public class BGMData : ScriptableObject
 
     [SerializeField]
     [Header("名前")]
-    private string _name;
+    private string _nickName;
 
     [SerializeField]
     [Header("音量")]
