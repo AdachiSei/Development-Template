@@ -34,10 +34,14 @@ namespace Template.Manager
 
         public async void LoadScene(string sceneName)
         {
-            if (_isLoading) return;
+            if (_isLoading)
+                return;
+
             _isLoading = true;
 
-            if (OnFadeOut != null) await OnFadeOut();
+            if (OnFadeOut != null)
+                await OnFadeOut();
+
             await SceneManager.LoadSceneAsync(sceneName);
             await OnFadeIn();
 
@@ -47,19 +51,16 @@ namespace Template.Manager
 
         public void RegisterStartGame(Action startGame)
         {
-            OnStartGame -= startGame;
             OnStartGame += startGame;
         }
 
         public void RegisterFadeIn(Func<UniTask> FadeInMethod)
         {
-            OnFadeIn -= FadeInMethod;
             OnFadeIn += FadeInMethod;
         }
 
         public void RegisterFadeOut(Func<UniTask> FadeOutMethod)
         {
-            OnFadeOut -= FadeOutMethod;
             OnFadeOut += FadeOutMethod;
         }
 

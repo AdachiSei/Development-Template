@@ -5,7 +5,7 @@ namespace Template.Manager
     /// <summary>
     /// インターフェース
     /// </summary>
-    public interface IloadableScene
+    public interface ILoadableScene
     {
         #region Methods
 

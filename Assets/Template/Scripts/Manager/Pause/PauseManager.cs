@@ -19,8 +19,8 @@ namespace Template.Manager
 
         #region Events
 
-        public event Action OnPause;
-        public event Action OnResume;
+        private event Action OnPause;
+        private event Action OnResume;
 
         #endregion
 
@@ -41,6 +41,30 @@ namespace Template.Manager
                     OnResume?.Invoke();
                 }
             }
+        }
+
+        #endregion
+
+        #region Public Methods
+
+        public void RegisterPause(Action PauseMethod)
+        {
+            OnPause += PauseMethod;
+        }
+
+        public void RegisterResume(Action ResumeMethod)
+        {
+            OnResume += ResumeMethod;
+        }
+
+        public void ReleasePause(Action PauseMethod)
+        {
+            OnPause -= PauseMethod;
+        }
+
+        public void ReleaseResume(Action ResumeMethod)
+        {
+            OnResume -= ResumeMethod;
         }
 
         #endregion

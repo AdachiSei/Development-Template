@@ -25,21 +25,23 @@ namespace TemplateEditor.Build
 
         private static void BuildAndRun(string appName, string sceneName)
         {
-            var outputDirectory = Path.Combine(BUILD_DIRECTORY_NAME, appName);
-
-            if (!Directory.Exists(outputDirectory))
-                Directory.CreateDirectory(outputDirectory);
-
             var targetScene = 
                 EditorBuildSettings
                     .scenes
                     .FirstOrDefault
                     (scene => Path.GetFileNameWithoutExtension(scene.path) == sceneName);
+
             if (targetScene == null)
             {
                 Debug.LogError("シーンをビルドセッティングスに追加してください");
                 return;
             }
+
+            var outputDirectory = Path.Combine(BUILD_DIRECTORY_NAME, appName);
+
+            if (!Directory.Exists(outputDirectory))
+                Directory.CreateDirectory(outputDirectory);
+
             var buildTarget = EditorUserBuildSettings.activeBuildTarget;
             var locationPath = Path.Combine(outputDirectory, MakeApplicationFileName(appName, buildTarget));
             var buildOptions = BuildOptions.SymlinkSources | BuildOptions.AutoRunPlayer;

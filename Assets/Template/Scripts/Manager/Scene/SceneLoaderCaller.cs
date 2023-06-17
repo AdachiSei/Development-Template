@@ -7,7 +7,7 @@ namespace Template.Manager
     /// シーンローダーの関数を呼ぶためのクラス
     /// </summary>
     [RequireComponent(typeof(FadeView))]
-    public class SceneLoadCaller : MonoBehaviour
+    public class SceneLoaderCaller : MonoBehaviour
     {
         #region Properties
 
@@ -26,23 +26,6 @@ namespace Template.Manager
                 SceneLoader.RegisterFadeOut(fadable.FadeOutMethod);
             }
         }
-
-        #endregion
-
-        #region Editor Methods
-
-        #if UNITY_EDITOR
-
-        public void RegisterLoadSceneMethod()
-        {
-            foreach (var mb in FindObjectsOfType<MonoBehaviour>())
-            {
-                if(mb.TryGetComponent(out IloadableScene loadableScene))
-                    loadableScene.LoadScene += SceneLoader.LoadScene;
-            }
-        }
-
-        #endif
 
         #endregion
     }
