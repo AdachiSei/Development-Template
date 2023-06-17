@@ -8,30 +8,8 @@ namespace Template.AudioData
     /// 効果音用のスクリプタブルオブジェクト
     /// </summary>
     [CreateAssetMenu(fileName = "SFXData", menuName = "ScriptableObjects/SFXData", order = 1)]
-    public class SFXData : ScriptableObject
+    public class SFXData : AudioData
     {
-        #region Properties
 
-        public string NickName => _nickName;
-        public int Volume => _volume;
-        public AudioClip SFXClip => _sfxClip;
-
-        #endregion
-
-        #region Inspector Variables
-
-        [SerializeField]
-        [Header("名前")]
-        private string _nickName;
-
-        [SerializeField]
-        [Header("音量")]
-        private int _volume = 1;
-
-        [SerializeField]
-        [Header("効果音")]
-        private AudioClip _sfxClip;
-
-        #endregion
     }
 }

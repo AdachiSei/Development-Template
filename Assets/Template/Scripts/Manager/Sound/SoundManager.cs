@@ -159,10 +159,10 @@ namespace Template.Manager
             //Ä¶‚µ‚½‚¢‰¹‚ði‚èž‚Þ
             foreach (var clip in _bgmDatas)
             {
-                var clipName = clip.BGMClip.name == name;
+                var clipName = clip.AudioClip.name == name;
                 var nickName = clip.NickName == name;
                 if (clipName || nickName)
-                    audioClip = clip.BGMClip;
+                    audioClip = clip.AudioClip;
             }
 
             if (audioClip == null)
@@ -212,7 +212,7 @@ namespace Template.Manager
             //Ä¶‚µ‚½‚¢‰¹‚ði‚èž‚Þ
             foreach (var data in _sfxDatas)
             {
-                var clipName = data.SFXClip.name != name;
+                var clipName = data.AudioClip.name != name;
                 var nickName = data.NickName != name;
                 if (clipName && nickName)
                     continue;
@@ -223,7 +223,7 @@ namespace Template.Manager
                     if (audioSource.clip != null)
                         continue;
 
-                    audioSource.clip = data.SFXClip;
+                    audioSource.clip = data.AudioClip;
                     audioSource.volume = sfxVolume;
                     audioSource.gameObject.transform.SetParent(parent);
                     audioSource.transform.localPosition = Vector3.zero;
@@ -257,7 +257,7 @@ namespace Template.Manager
                 _newAudioSourceCount++;
                 _sfxAudioSources.Add(newAudioSource);
 
-                newAudioSource.clip = data.SFXClip;
+                newAudioSource.clip = data.AudioClip;
                 newAudioSource.volume = sfxVolume;
 
                 if (parent != null)
@@ -270,7 +270,7 @@ namespace Template.Manager
 
                 var newPrivName = newAudioSource.name;
                 newAudioSource.name = 
-                    data.NickName != "" ? data.NickName : data.SFXClip.name;
+                    data.NickName != "" ? data.NickName : data.AudioClip.name;
 
                 await UniTask.WaitUntil(() => !newAudioSource.isPlaying && !IsPausing);
 
@@ -483,7 +483,7 @@ namespace Template.Manager
                 _bgmAudioSources.Add(audio);
 
                 audio.name = _bgmDatas[i].NickName;
-                audio.clip = _bgmDatas[i].BGMClip;
+                audio.clip = _bgmDatas[i].AudioClip;
                 if (audio.clip != null) audio.clip.name = _bgmDatas[i].NickName;
                 audio.loop = true;
             }
