@@ -10,9 +10,9 @@ using Template.AudioData;
 namespace Template.Manager
 {
     /// <summary>
-    /// サウンドを管理するScript
+    /// オーディオを管理するScript
     /// </summary>
-    public class SoundManager : MonoBehaviour, IPauseable
+    public class AudioManager : MonoBehaviour, IPauseable
     {
         #region Properties
 
@@ -159,7 +159,7 @@ namespace Template.Manager
             //再生したい音を絞り込む
             foreach (var clip in _bgmDatas)
             {
-                var clipName = clip.AudioClip.name == name;
+                var clipName = clip.AudioClip?.name == name;
                 var nickName = clip.NickName == name;
                 if (clipName || nickName)
                     audioClip = clip.AudioClip;
@@ -181,6 +181,8 @@ namespace Template.Manager
                 audioSource.volume = bgmVolume;
                 audioSource.loop = isLooping;
                 audioSource.Play();
+
+                return;
             }
 
             //再生したい音をのAudioを生成
@@ -234,7 +236,7 @@ namespace Template.Manager
 #if UNITY_EDITOR
 
                     var privName = audioSource.name;
-                    audioSource.name = data.name;
+                    audioSource.name = data.NickName;
 
                     await UniTask.WaitUntil(() => !audioSource.isPlaying && !IsPausing);
 
