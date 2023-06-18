@@ -9,7 +9,7 @@ namespace TemplateEditor.Inspector
     /// <summary>
     /// サウンドマネージャーのエディター拡張
     /// </summary>
-    [CustomEditor(typeof(AudioManager))]
+    [CustomEditor(typeof(SoundManager))]
     public class SoundManagerInspector : Editor
     {
         #region Member Variables
@@ -29,7 +29,7 @@ namespace TemplateEditor.Inspector
 
             base.OnInspectorGUI();
 
-            var soundManager = target as AudioManager;
+            var soundManager = target as SoundManager;
             var style = new GUIStyle(EditorStyles.label);
             style.richText = true;
 
@@ -105,7 +105,7 @@ namespace TemplateEditor.Inspector
         /// </summary>
         private void GetAudioDatas()
         {
-            var soundManager = target as AudioManager;
+            var soundManager = target as SoundManager;
 
             var bgmList = new List<BGMData>();
             var sfxList = new List<SFXData>();
