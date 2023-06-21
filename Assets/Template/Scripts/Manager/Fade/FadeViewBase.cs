@@ -1,12 +1,13 @@
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 
 namespace Template.Manager
 {
     /// <summary>
-    /// フェードを管理するViewの機能を持つアダプティー
+    /// フェードを管理するViewの機能を持つ基底クラス
     /// </summary>
     public abstract class FadeViewBase : MonoBehaviour
     {
@@ -28,7 +29,7 @@ namespace Template.Manager
 
         #region Member Variables
 
-        protected Vector3 _rotDir = new(0f, 0f, -360);
+        protected Vector3 _rotDir = new(0f, 0f, -360f);
 
         #endregion
 
@@ -46,14 +47,17 @@ namespace Template.Manager
         {
             _loadingImage?.gameObject.SetActive(false);
             _loadingImage?.DOKill();
-
-            await _loadingPanel?.DOFade(0f, _fadeTime).AsyncWaitForCompletion();
+            _loadingPanel?.DOFade(0f, _fadeTime);
+            await UniTask.Delay(TimeSpan.FromSeconds(_fadeTime));
         }
 
         protected async UniTask FadeOut()
         {
             if (_loadingPanel != null)
-                await _loadingPanel.DOFade(MAX_ALPFA, _fadeTime).AsyncWaitForCompletion();
+            {
+                _loadingPanel.DOFade(MAX_ALPFA, _fadeTime);
+                await UniTask.Delay(TimeSpan.FromSeconds(_fadeTime));
+            }
 
             _loadingPanel?.DOKill();
 

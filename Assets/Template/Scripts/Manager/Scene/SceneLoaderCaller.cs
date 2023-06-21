@@ -6,7 +6,7 @@ namespace Template.Manager
     /// <summary>
     /// シーンローダーの関数を呼ぶためのクラス
     /// </summary>
-    [RequireComponent(typeof(FadeView))]
+    [RequireComponent(typeof(FadeViewTemplate))]
     public class SceneLoaderCaller : MonoBehaviour
     {
         #region Properties
