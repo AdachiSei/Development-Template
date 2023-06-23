@@ -1,7 +1,6 @@
 # Development-Template
 
 長期開発用テンプレート
-製作中
 
 ご自由に使用して下さい
 
