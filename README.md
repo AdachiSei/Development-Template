@@ -11,9 +11,9 @@
 ## 導入済みアセット
 
 ### UniTask
-> https://github.com/Cysharp/UniTask
+> https://github.com/Cysharp/UniTask.git?path=src/UniTask/Assets/Plugins/UniTask
 ### UniRx
-> https://github.com/neuecc/UniRx
+> https://github.com/neuecc/UniRx.git?path=Assets/Plugins/UniRx/Scripts
 ### DOTween
 > https://assetstore.unity.com/packages/tools/animation/dotween-hotween-v2-27676?locale=ja-JP
 
