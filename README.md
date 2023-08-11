@@ -91,7 +91,7 @@ Unity用
 | アセット | [パスカルケース](https://wa3.i-3-i.info/word13955.html) | AssetName |
 | ファイル | [パスカルケース](https://wa3.i-3-i.info/word13955.html) | FileName |
 | オブジェクト | [パスカルケース](https://wa3.i-3-i.info/word13955.html) | ObjectName |
-| UIオブジェクト | オブジェクト名 + UI名 | ●●Text |
+| UIオブジェクト | オブジェクト名 + UI名 | ●●UI |
 
 ## Sourcetree
 
