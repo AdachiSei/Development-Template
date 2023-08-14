@@ -1,8 +1,6 @@
 # Development-Template
 
-長期開発用テンプレート
-
-Unity用のテンプレート
+長期開発を想定したUnity用テンプレート
 
 ## 開発環境
 
