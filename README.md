@@ -17,6 +17,9 @@
 ### DOTween
 > https://assetstore.unity.com/packages/tools/animation/dotween-hotween-v2-27676?locale=ja-JP
 
+### Extenject
+> https://github.com/Mathijs-Bakker/Extenject.git?path=UnityProject/Assets/Plugins/Zenject/Source
+
 # 命名規則
 
 ## C#
