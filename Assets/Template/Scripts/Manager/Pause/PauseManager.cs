@@ -10,7 +10,7 @@ namespace Template.Manager
     {
         #region Properties
 
-        public Pauser Pauser { get; private set; } = new();
+        public PauseData Pauser { get; private set; } = new();
 
         #endregion
 

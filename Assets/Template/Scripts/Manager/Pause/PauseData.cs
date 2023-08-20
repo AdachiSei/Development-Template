@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace Template.Manager
 {
-    public class Pauser
+    public class PauseData
     {
         #region Properties
 
