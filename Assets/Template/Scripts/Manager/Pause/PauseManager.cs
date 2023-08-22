@@ -10,7 +10,7 @@ namespace Template.Manager
     {
         #region Properties
 
-        public PauseData Pauser { get; private set; } = new();
+        public PauseData PauseData { get; private set; } = new();
 
         #endregion
 
@@ -19,7 +19,7 @@ namespace Template.Manager
         void Update()
         {
             if (Input.GetButtonDown(InputName.CANCEL))
-                Pauser.Pause();
+                PauseData.Pause();
         }
 
         #endregion
