@@ -14,7 +14,6 @@ namespace Template.Manager
         #region Methods
 
         void Pause();
-        void Resume();
 
         #endregion
     }

@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace Template.Manager
 {
-    public class PauseData
+    public class PauseData : IPauseable, IRegistablePauseAndResume
     {
         #region Properties
 
@@ -15,8 +15,18 @@ namespace Template.Manager
 
         #region Events
 
-        private event Action OnPause;
-        private event Action OnResume;
+        private event Action OnPause = null;
+        private event Action OnResume = null;
+
+        #endregion
+
+        #region Constructor
+
+        ~PauseData()
+        {
+            OnPause = null;
+            OnResume = null;
+        }
 
         #endregion
 
