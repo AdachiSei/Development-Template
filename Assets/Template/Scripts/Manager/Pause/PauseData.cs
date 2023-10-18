@@ -20,16 +20,6 @@ namespace Template.Manager
 
         #endregion
 
-        #region Constructor
-
-        ~PauseData()
-        {
-            OnPause = null;
-            OnResume = null;
-        }
-
-        #endregion
-
         #region Public Methods
 
         public void Pause()
