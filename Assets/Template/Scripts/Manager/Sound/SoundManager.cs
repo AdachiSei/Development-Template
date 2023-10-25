@@ -96,11 +96,11 @@ namespace Template.Manager
 
             //BGMを格納する親オブジェクトが無かったら
             if (_bgmParent == null)
-                CreateBGMParent();
+                CreateParent(out _bgmParent, "BGM");
 
             //SFXを格納する親オブジェクトが無かったら
             if (_sfxParent == null)
-                CreateSFXParent();
+                CreateParent(out _sfxParent, "SFX");
 
             if (_audioPrefab.playOnAwake)
                 _audioPrefab.playOnAwake = false;
@@ -299,42 +299,39 @@ namespace Template.Manager
             await UniTask.Delay(TimeSpan.FromSeconds(_fadeTime));
 
             //BGMを止める
-            foreach (var audio in _bgmAudioSources)
+            foreach (var audioSource in _bgmAudioSources)
             {
-                if (!audio.isPlaying)
+                if (!audioSource.isPlaying)
                     continue;
 
-                audio.Stop();
-                audio.name = audio.name.Replace("♪ ", "");
-                audio.volume = 1;
+                audioSource.Stop();
+                audioSource.name = audioSource.name.Replace("♪ ", "");
+                audioSource.volume = 1;
             }
         }
 
         /// <summary>
         /// マスター音量を変更する関数
         /// </summary>
-        /// <param name="masterVolume">マスター音量</param>
-        public void SetMasterVolume(float masterVolume)
+        public void SetMasterVolume(float volume)
         {
-            _masterVolume = masterVolume;
+            _masterVolume = volume;
         }
 
         /// <summary>
         /// 音楽の音量を変更する関数
         /// </summary>
-        /// <param name="bgmVolume">音楽の音量</param>
-        public void SetBGMVolume(float bgmVolume)
+        public void SetBGMVolume(float volume)
         {
-            _bgmVolume = bgmVolume;
+            _bgmVolume = volume;
         }
 
         /// <summary>
         /// 効果音の音量を変更する関数
         /// </summary>
-        /// <param name="sfxVolume">効果音の音量</param>
-        public void SetSFXVolume(float sfxVolume)
+        public void SetSFXVolume(float volume)
         {
-            _sfxVolume = sfxVolume;
+            _sfxVolume = volume;
         }
 
         /// <summary>
@@ -398,25 +395,14 @@ namespace Template.Manager
         #region Private Methods
 
         /// <summary>
-        /// 音楽を格納するオブジェクトを生成する関数
+        /// AudioSourceを格納するオブジェクトを生成する関数
         /// </summary>
-        private void CreateBGMParent()
+        private void CreateParent(out Transform parent, string name)
         {
             var go = new GameObject();
-            _bgmParent = go.transform;
-            _bgmParent.name = "BGM";
-            _bgmParent.transform.parent = transform;
-        }
-
-        /// <summary>
-        /// 効果音を格納するオブジェクトを生成する関数
-        /// </summary>
-        private void CreateSFXParent()
-        {
-            var go = new GameObject();
-            _sfxParent = go.transform;
-            _sfxParent.name = "SFX";
-            _sfxParent.transform.SetParent(transform);
+            parent = go.transform;
+            parent.name = name;
+            parent.transform.SetParent(transform);
         }
 
         /// <summary>
@@ -432,34 +418,22 @@ namespace Template.Manager
         }
 
         /// <summary>
-        /// BGM用のPrefabを全削除する関数
+        /// 子オブジェクトのオーディオソースを全削除する関数
         /// </summary>
-        private void InitBGM()
+        /// <param name="parent"></param>
+        private void InitAudioSource(ref Transform parent)
         {
-            if (_bgmParent == null)
+            if (parent == null)
                 return;
 
-            while (_bgmParent.childCount != 0)
-                DestroyImmediate(_bgmParent.GetChild(0).gameObject);
-        }
-
-        /// <summary>
-        /// SFX用のPrefabを全削除する関数
-        /// </summary>
-        private void InitSFX()
-        {
-            if (_sfxParent == null)
-                return;
-
-            while (_sfxParent.childCount != 0)
-                DestroyImmediate(_sfxParent.GetChild(0).gameObject);
+            while (parent.childCount != 0)
+                DestroyImmediate(parent.GetChild(0).gameObject);
         }
 
         #endregion
 
-        #region Editor Methods
-
 #if UNITY_EDITOR
+        #region Editor Methods
 
         /// <summary>
         /// BGM用のPrefabを生成する関数
@@ -467,13 +441,13 @@ namespace Template.Manager
         public void CreateBGM()
         {
             if (_audioPrefab == null) CreateAudio();
-            if (_bgmParent == null) CreateBGMParent();
+            if (_bgmParent == null) CreateParent(out _bgmParent, "BGM");
 
             IsStopingToCreate = false;
 
             _bgmAudioSources.Clear();
 
-            InitBGM();
+            InitAudioSource(ref _bgmParent);
 
             for (var i = 0; i < _bgmDatas.Length; i++)
             {
@@ -497,13 +471,13 @@ namespace Template.Manager
         public void CreateSFX()
         {
             if (_audioPrefab == null) CreateAudio();
-            if (_sfxParent == null) CreateSFXParent();
+            if (_sfxParent == null) CreateParent(out _sfxParent, "SFX");
 
             IsStopingToCreate = false;
 
             _sfxAudioSources.Clear();
 
-            InitSFX();
+            InitAudioSource(ref _sfxParent);
 
             for (var i = 0; i < AudioSourceCount; i++)
             {
@@ -528,8 +502,8 @@ namespace Template.Manager
             _bgmAudioSources.Clear();
             _sfxAudioSources.Clear();
 
-            InitBGM();
-            InitSFX();
+            InitAudioSource(ref _bgmParent);
+            InitAudioSource(ref _sfxParent);
         }
 
         public void ResizeBGMClips(int length)
@@ -557,8 +531,7 @@ namespace Template.Manager
             AudioSourceCount = count;
         }
 
-#endif
-
         #endregion
+#endif
     }
 }

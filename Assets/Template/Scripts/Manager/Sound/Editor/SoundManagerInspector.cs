@@ -42,7 +42,7 @@ namespace TemplateEditor.Inspector
 
                 //全フォルダから音をとってくる
                 EditorGUILayout
-                    .LabelField("<b>全フォルダから音をとってくる</b>", style);
+                    .LabelField("<b>全フォルダから音を探して設定</b>", style);
                 {
                     if (GUILayout.Button("GetAudioClips")) GetAudioDatas();
                 }
@@ -51,7 +51,7 @@ namespace TemplateEditor.Inspector
 
                 //BGM用のPrefabを作成
                 EditorGUILayout
-                    .LabelField("<b>音楽のオーディオソースを生成</b>", style);
+                    .LabelField("<b>音楽用オーディオソースを生成</b>", style);
                 {
                     if (GUILayout.Button("CreateBGM")) soundManager.CreateBGM();
                 }
@@ -59,7 +59,7 @@ namespace TemplateEditor.Inspector
                 EditorGUILayout.Space();
 
                 EditorGUILayout
-                    .LabelField("<b>効果音のオーディオソースを生成</b>", style);
+                    .LabelField("<b>効果音用オーディオソースを生成</b>", style);
                 {
                     var intField =
                         EditorGUILayout
