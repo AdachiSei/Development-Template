@@ -1,3 +1,4 @@
+using Cysharp.Threading.Tasks;
 using System;
 
 namespace Template.Manager
@@ -7,9 +8,15 @@ namespace Template.Manager
     /// </summary>
     public interface ILoadableScene
     {
+        #region Properties
+
+        string ActiveSceneName { get; }
+
+        #endregion
+
         #region Methods
 
-        public event Action<string> LoadScene;
+        UniTask LoadScene(string sceneName);
 
         #endregion
     }

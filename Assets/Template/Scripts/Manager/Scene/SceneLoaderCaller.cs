@@ -1,3 +1,4 @@
+using Cysharp.Threading.Tasks;
 using Template.Extension;
 using UnityEngine;
 
@@ -33,7 +34,7 @@ namespace Template.Manager
 
         public void LoadScene(string name)
         {
-            SceneLoader.LoadScene(name);
+            SceneLoader.LoadScene(name).Forget();
         }
 
         #endregion

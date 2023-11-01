@@ -7,7 +7,7 @@ namespace Template.Manager
     /// <summary>
     /// シーンを読み込むスクリプト
     /// </summary>
-    public class SceneLoader
+    public class SceneLoader : ILoadableScene
     {
         #region Properties
 
@@ -32,7 +32,7 @@ namespace Template.Manager
 
         #region Public Methods
 
-        public async void LoadScene(string sceneName)
+        public async UniTask LoadScene(string sceneName)
         {
             if (_isLoading)
                 return;
@@ -43,7 +43,9 @@ namespace Template.Manager
                 await OnFadeOut();
 
             await SceneManager.LoadSceneAsync(sceneName);
-            await OnFadeIn();
+
+            if (OnFadeIn != null)
+                await OnFadeIn();
 
             _isLoading = false;
             OnStartGame?.Invoke();
@@ -54,14 +56,14 @@ namespace Template.Manager
             OnStartGame += startGame;
         }
 
-        public void RegisterFadeIn(Func<UniTask> FadeInMethod)
+        public void RegisterFadeIn(Func<UniTask> fadeInMethod)
         {
-            OnFadeIn += FadeInMethod;
+            OnFadeIn += fadeInMethod;
         }
 
-        public void RegisterFadeOut(Func<UniTask> FadeOutMethod)
+        public void RegisterFadeOut(Func<UniTask> fadeOutMethod)
         {
-            OnFadeOut += FadeOutMethod;
+            OnFadeOut += fadeOutMethod;
         }
 
         public void ReleaseStartGame(Action startGame)
@@ -69,14 +71,14 @@ namespace Template.Manager
             OnStartGame -= startGame;
         }
 
-        public void ReleaseFadeIn(Func<UniTask> FadeInMethod)
+        public void ReleaseFadeIn(Func<UniTask> fadeInMethod)
         {
-            OnFadeIn -= FadeInMethod;
+            OnFadeIn -= fadeInMethod;
         }
 
-        public void ReleaseFadeOut(Func<UniTask> FadeOutMethod)
+        public void ReleaseFadeOut(Func<UniTask> fadeOutMethod)
         {
-            OnFadeOut -= FadeOutMethod;
+            OnFadeOut -= fadeOutMethod;
         }
 
         #endregion
