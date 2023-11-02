@@ -12,7 +12,7 @@ namespace Template.Manager
     /// <summary>
     /// ƒTƒEƒ“ƒh‚ğŠÇ—‚·‚éScript
     /// </summary>
-    public class SoundManager : MonoBehaviour, IPauseable
+    public class SoundManager : MonoBehaviour
     {
         #region Properties
 

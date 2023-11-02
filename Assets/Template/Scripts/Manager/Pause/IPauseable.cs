@@ -1,3 +1,5 @@
+using System;
+
 namespace Template.Manager
 {
     /// <summary>
@@ -14,6 +16,14 @@ namespace Template.Manager
         #region Methods
 
         void Pause();
+
+        void RegisterPause(Action PauseMethod);
+
+        void RegisterResume(Action ResumeMethod);
+
+        void ReleasePause(Action PauseMethod);
+
+        void ReleaseResume(Action ResumeMethod);
 
         #endregion
     }

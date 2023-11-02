@@ -1,7 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
 using Template.Manager;
-using UnityEngine;
 using Zenject;
 
 /// <summary>
