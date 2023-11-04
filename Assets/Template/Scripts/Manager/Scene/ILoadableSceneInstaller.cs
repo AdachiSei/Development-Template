@@ -4,7 +4,7 @@ using Zenject;
 /// <summary>
 /// スクリプト
 /// </summary>
-public class ILoadableSceneInstaller : MonoInstaller
+public class ILoadableSceneInstaller : MonoInstaller<IPauseableInstaller>
 {
     public override void InstallBindings()
     {
