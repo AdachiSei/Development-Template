@@ -6,6 +6,7 @@ using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using UniRx;
 using Template.AudioData;
+using Zenject;
 
 namespace Template.Manager
 {
@@ -102,8 +103,7 @@ namespace Template.Manager
             if (_sfxParent == null)
                 CreateParent(out _sfxParent, "SFX");
 
-            if (_audioPrefab.playOnAwake)
-                _audioPrefab.playOnAwake = false;
+            _audioPrefab.playOnAwake = false;
 
 #if UNITY_EDITOR
 
@@ -176,11 +176,13 @@ namespace Template.Manager
             {
                 if (audioSource.clip != audioClip)
                     continue;
-
+#if UNITY_EDITOR
                 audioSource.name = $"ÅÙ {audioSource.name}";
+#endif
                 audioSource.volume = bgmVolume;
                 audioSource.loop = isLooping;
                 audioSource.Play();
+                return;
             }
 
             //çƒê∂ÇµÇΩÇ¢âπÇÇÃAudioÇê∂ê¨
@@ -190,7 +192,9 @@ namespace Template.Manager
 
             newAudioSource.volume = bgmVolume;
             newAudioSource.clip = audioClip;
+#if UNITY_EDITOR
             newAudioSource.name = $"New {audioClip.name}";
+#endif
             newAudioSource.loop = isLooping;
 
             newAudioSource.Play();
