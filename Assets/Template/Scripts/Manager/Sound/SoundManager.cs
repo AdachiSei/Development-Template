@@ -298,9 +298,7 @@ namespace Template.Manager
             //BGM‚Ì‰¹—Ê‚ğ­‚µ‚¸‚Â‰º‚°‚é
             foreach (var audio in _bgmAudioSources)
                 if (audio.isPlaying)
-                    audio.DOFade(0, _fadeTime);
-
-            await UniTask.Delay(TimeSpan.FromSeconds(_fadeTime));
+                    await audio.DOFade(0, _fadeTime);
 
             //BGM‚ğ~‚ß‚é
             foreach (var audioSource in _bgmAudioSources)
