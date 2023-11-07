@@ -55,8 +55,7 @@ namespace Template.Manager
         {
             if (_loadingPanel != null)
             {
-                _loadingPanel.DOFade(MAX_ALPFA, _fadeTime);
-                await UniTask.Delay(TimeSpan.FromSeconds(_fadeTime));
+                await _loadingPanel.DOFade(MAX_ALPFA, _fadeTime);
             }
 
             _loadingPanel?.DOKill();
