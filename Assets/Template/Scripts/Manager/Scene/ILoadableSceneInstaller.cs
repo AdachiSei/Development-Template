@@ -2,9 +2,9 @@ using Template.Manager;
 using Zenject;
 
 /// <summary>
-/// スクリプト
+/// インストーラー
 /// </summary>
-public class ILoadableSceneInstaller : MonoInstaller<IPauseableInstaller>
+public class ILoadableSceneInstaller : MonoInstaller<ILoadableSceneInstaller>
 {
     public override void InstallBindings()
     {
