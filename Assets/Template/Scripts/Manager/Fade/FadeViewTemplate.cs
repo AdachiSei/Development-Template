@@ -40,9 +40,7 @@ namespace Template.Fade
         public async UniTask FadeOut()
         {
             if (_loadingPanel != null)
-            {
                 await _loadingPanel.DOFade(MAX_ALPFA, _fadeTime);
-            }
 
             _loadingPanel?.DOKill();
 
