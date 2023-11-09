@@ -1,19 +1,13 @@
 using System;
 
-namespace Template.Manager
+namespace Template.Pause
 {
     /// <summary>
     /// インターフェース
     /// </summary>
     public interface IPauseable
     {
-        #region Properties
-
         bool IsPausing { get; }
-
-        #endregion
-
-        #region Methods
 
         void Pause();
 
@@ -24,7 +18,5 @@ namespace Template.Manager
         void ReleasePause(Action PauseMethod);
 
         void ReleaseResume(Action ResumeMethod);
-
-        #endregion
     }
 }

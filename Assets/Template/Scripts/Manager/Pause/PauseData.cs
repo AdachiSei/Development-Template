@@ -1,39 +1,20 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 
-namespace Template.Manager
+namespace Template.Pause
 {
     public class PauseData : IPauseable
     {
-        #region Properties
-
         public bool IsPausing { get; private set; } = false;
-
-        #endregion
-
-        #region Events
 
         private event Action OnPause = null;
         private event Action OnResume = null;
 
-        #endregion
-
-        #region Public Methods
-
         public void Pause()
         {
-            if (!IsPausing)
-            {
-                IsPausing = true;
+            if (IsPausing = !IsPausing)
                 OnPause?.Invoke();
-            }
             else
-            {
-                IsPausing = false;
                 OnResume?.Invoke();
-            }
         }
 
         public void RegisterPause(Action PauseMethod)
@@ -55,7 +36,5 @@ namespace Template.Manager
         {
             OnResume -= ResumeMethod;
         }
-
-        #endregion
     }
 }

@@ -1,27 +1,21 @@
 using Template.Constant;
 using UnityEngine;
+using Zenject;
 
-namespace Template.Manager
+namespace Template.Pause
 {
     /// <summary>
     /// ポーズマネージャー
     /// </summary>
     public class PauseManager : MonoBehaviour
     {
-        #region Properties
-
-        public PauseData PauseData { get; private set; } = new();
-
-        #endregion
-
-        #region Unity Methods
+        [Inject]
+        private IPauseable _pauseData = null;
 
         void Update()
         {
             if (Input.GetButtonDown(InputName.CANCEL))
-                PauseData.Pause();
+                _pauseData.Pause();
         }
-
-        #endregion
     }
 }
