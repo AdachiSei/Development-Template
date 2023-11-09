@@ -10,12 +10,12 @@ namespace Template.Pause
     public class PauseManager : MonoBehaviour
     {
         [Inject]
-        private IPauseable _pauseData = null;
+        private IPauseable _pauseable = null;
 
         void Update()
         {
             if (Input.GetButtonDown(InputName.CANCEL))
-                _pauseData.Pause();
+                _pauseable.Pause();
         }
     }
 }
