@@ -2,44 +2,30 @@ using Cysharp.Threading.Tasks;
 using System;
 using UnityEngine.SceneManagement;
 
-namespace Template.Manager
+namespace Template.Scene
 {
     /// <summary>
     /// シーンを読み込むスクリプト
     /// </summary>
-    public class SceneLoader : ILoadableScene
+    public class SceneLoader : ILoadableScene, IRegestableLoadScene
     {
-        #region Properties
-
         public string ActiveSceneName =>
             SceneManager.GetActiveScene().name;
 
-        #endregion
-
-        #region Member Variables
-
         private bool _isLoading = false;
 
-        #endregion
-
-        #region Events
-
-        private event Action OnStartGame;
-        private event Func<UniTask> OnFadeIn;
-        private event Func<UniTask> OnFadeOut;
-
-        #endregion
-
-        #region Public Methods
+        private event Action OnStartGame = null;
+        private event Func<UniTask> OnFadeIn = null;
+        private event Func<UniTask> OnFadeOut = null;
 
         public async UniTask LoadScene(string sceneName)
         {
-            if (_isLoading)
+            if (_isLoading == true)
                 return;
 
             _isLoading = true;
 
-            if (OnFadeOut != null)
+            if(OnFadeOut != null)
                 await OnFadeOut();
 
             await SceneManager.LoadSceneAsync(sceneName);
@@ -81,6 +67,5 @@ namespace Template.Manager
             OnFadeOut -= fadeOutMethod;
         }
 
-        #endregion
     }
 }
