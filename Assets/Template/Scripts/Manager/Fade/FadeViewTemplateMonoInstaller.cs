@@ -9,9 +9,9 @@ using Zenject;
 namespace Template.Fade
 {
     /// <summary>
-    /// フェードのMonoInstaller
+    /// フェードビューのMonoInstaller
     /// </summary>
-    public class FadeViewMonoInstaller : MonoInstaller<FadeViewMonoInstaller>
+    public class FadeViewTemplateMonoInstaller : MonoInstaller<FadeViewTemplateMonoInstaller>
     {
         [SerializeField]
         [Header("ローディング時に回転する絵")]

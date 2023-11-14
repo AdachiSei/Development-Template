@@ -2,14 +2,11 @@ using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using UnityEngine;
 using UnityEngine.UI;
-using Zenject;
-using Template.Scene;
 
 namespace Template.Fade
 {
     /// <summary>
-    /// フェードを管理するViewの機能を持つアダプティーと
-    /// フェードを呼び出す用のインターフェースを結合するアダプター
+    /// フェードを管理するView
     /// </summary>
     public class FadeViewTemplate : IFadable
     {
@@ -26,7 +23,6 @@ namespace Template.Fade
         {
             _loadingImage = loadingImage;
             _loadingPanel = loadingPanel;
-
             FadeIn().Forget();
         }
 
@@ -34,16 +30,15 @@ namespace Template.Fade
         {
             _loadingImage?.gameObject.SetActive(false);
             _loadingImage?.DOKill();
+
             await _loadingPanel?.DOFade(0f, _fadeTime);
         }
 
         public async UniTask FadeOut()
         {
-            if (_loadingPanel != null)
-                await _loadingPanel.DOFade(MAX_ALPFA, _fadeTime);
+            await _loadingPanel?.DOFade(MAX_ALPFA, _fadeTime);
 
             _loadingPanel?.DOKill();
-
             _loadingImage?.gameObject.SetActive(true);
             _loadingImage?
                 .transform
