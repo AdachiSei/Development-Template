@@ -22,8 +22,8 @@
 
 > **[Extenject](https://github.com/Mathijs-Bakker/Extenject.git?path=UnityProject/Assets/Plugins/Zenject/Source)**
 
-> **[UniRx](https://github.com/neuecc/UniRx.git？path=Assets/Plugins/UniRx/Scripts)**
-
+> **[UniRx](https://github.com/neuecc/UniRx?path=Assets/Plugins/UniRx/Scripts)**
+      
 > **[UniTask](https://github.com/Cysharp/UniTask.git?path=src/UniTask/Assets/Plugins/UniTask)**
 
 ## 素材
