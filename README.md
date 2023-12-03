@@ -1,7 +1,7 @@
 # ゲームのタイトルを入力
 
 ## Development-Template
-長期開発を想定したUnity用テンプレート
+チーム開発を想定したUnity用テンプレート
 
 ## プレイ動画
 > URLを挿入
