@@ -1,4 +1,4 @@
-# ゲームのタイトルを入力
+# Any Project Name
 
 ## Development-Template
 チーム開発を想定したUnity用テンプレート
