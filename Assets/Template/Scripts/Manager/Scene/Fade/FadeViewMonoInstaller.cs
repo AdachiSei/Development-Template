@@ -11,7 +11,7 @@ namespace Template.Fade
     /// <summary>
     /// フェードビューのMonoInstaller
     /// </summary>
-    public class FadeViewTemplateMonoInstaller : MonoInstaller<FadeViewTemplateMonoInstaller>
+    public class FadeViewMonoInstaller : MonoInstaller<FadeViewMonoInstaller>
     {
         [SerializeField]
         [Header("ローディング時に回転する絵")]
@@ -25,8 +25,8 @@ namespace Template.Fade
         {
             Container
                 .Bind<IFadable>()
-                .To<FadeViewTemplate>()
-                .FromInstance(new FadeViewTemplate(_loadingImage, _loadingPanel))
+                .To<FadeView>()
+                .FromInstance(new FadeView(_loadingImage, _loadingPanel))
                 .AsSingle();
         }
     }

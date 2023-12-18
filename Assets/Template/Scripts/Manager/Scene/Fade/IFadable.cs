@@ -7,7 +7,7 @@ namespace Template.Fade
     /// </summary>
     public interface IFadable
     {
-        UniTask FadeIn();
         UniTask FadeOut();
+        UniTask FadeIn();
     }
 }

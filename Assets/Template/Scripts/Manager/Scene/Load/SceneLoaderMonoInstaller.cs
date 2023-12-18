@@ -9,7 +9,7 @@ public class SceneLoaderMonoInstaller : MonoInstaller<SceneLoaderMonoInstaller>
     public override void InstallBindings()
     {
         Container
-            .Bind(typeof(ILoadableScene),typeof(IRegestableLoadScene))
+            .Bind<ILoadableScene>()
             .To<SceneLoader>()
             .AsSingle();
     }

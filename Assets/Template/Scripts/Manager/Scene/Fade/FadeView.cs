@@ -8,7 +8,7 @@ namespace Template.Fade
     /// <summary>
     /// フェードを管理するView
     /// </summary>
-    public class FadeViewTemplate : IFadable
+    public class FadeView : IFadable
     {
         private Image _loadingImage = null;
         private Image _loadingPanel = null;
@@ -19,19 +19,11 @@ namespace Template.Fade
         private const int LOOP_VALUE = -1;
         private const float MAX_ALPFA = 1f;
 
-        public FadeViewTemplate(Image loadingImage, Image loadingPanel)
+        public FadeView(Image loadingImage, Image loadingPanel)
         {
             _loadingImage = loadingImage;
             _loadingPanel = loadingPanel;
             FadeIn().Forget();
-        }
-
-        public async UniTask FadeIn()
-        {
-            _loadingImage?.gameObject.SetActive(false);
-            _loadingImage?.DOKill();
-
-            await _loadingPanel?.DOFade(0f, _fadeTime);
         }
 
         public async UniTask FadeOut()
@@ -45,6 +37,14 @@ namespace Template.Fade
                 .DORotate(_turnDir, LOADING_IMAGE_SPEED, RotateMode.FastBeyond360)
                 .SetEase(Ease.Linear)
                 .SetLoops(LOOP_VALUE);
+        }
+
+        public async UniTask FadeIn()
+        {
+            _loadingImage?.gameObject.SetActive(false);
+            _loadingImage?.DOKill();
+
+            await _loadingPanel?.DOFade(0f, _fadeTime);
         }
     }
 }
