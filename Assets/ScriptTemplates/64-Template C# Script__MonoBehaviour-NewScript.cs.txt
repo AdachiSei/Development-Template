@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-#ROOTNAMESPACEBEGIN#
+    #ROOTNAMESPACEBEGIN#
 /// <summary>
 /// スクリプト
 /// </summary>
@@ -24,12 +24,12 @@ public class #SCRIPTNAME# : MonoBehaviour
 
     private void Awake()
     {
-            #NOTRIM#
+        #NOTRIM#
     }
 
     private void Update()
     {
-            #NOTRIM#
+        #NOTRIM#
     }
 
     #endregion

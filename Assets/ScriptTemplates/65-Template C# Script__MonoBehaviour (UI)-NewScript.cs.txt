@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
-#ROOTNAMESPACEBEGIN#
+    #ROOTNAMESPACEBEGIN#
 /// <summary>
 /// UI用スクリプト
 /// </summary>

@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-#ROOTNAMESPACEBEGIN#
+    #ROOTNAMESPACEBEGIN#
 /// <summary>
 /// シリアライズブル
 /// </summary>

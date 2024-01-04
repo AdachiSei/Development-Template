@@ -1,4 +1,5 @@
-﻿/// <summary>
+﻿    #ROOTNAMESPACEBEGIN#
+/// <summary>
 /// インターフェース
 /// </summary>
 public interface #SCRIPTNAME#
@@ -6,3 +7,4 @@ public interface #SCRIPTNAME#
     #region Methods
     #endregion
 }
+#ROOTNAMESPACEEND#
