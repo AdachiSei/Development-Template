@@ -14,13 +14,6 @@
       "dependencies": {},
       "hash": "284d5c50d3f1ddd9fa7df3d382ea904732a9c2ff"
     },
-    "com.svermeulen.extenject": {
-      "version": "https://github.com/Mathijs-Bakker/Extenject.git?path=UnityProject/Assets/Plugins/Zenject/Source",
-      "depth": 0,
-      "source": "git",
-      "dependencies": {},
-      "hash": "574bdc68aec50fa373abfd8d6c7bf5767b0ffd3d"
-    },
     "com.unity.collab-proxy": {
       "version": "1.17.7",
       "depth": 0,
@@ -79,6 +72,13 @@
     "com.unity.ide.vscode": {
       "version": "1.2.5",
       "depth": 0,
+      "source": "registry",
+      "dependencies": {},
+      "url": "https://packages.unity.com"
+    },
+    "com.unity.nuget.mono-cecil": {
+      "version": "1.10.1",
+      "depth": 1,
       "source": "registry",
       "dependencies": {},
       "url": "https://packages.unity.com"
@@ -175,6 +175,15 @@
         "com.unity.modules.jsonserialize": "1.0.0"
       },
       "url": "https://packages.unity.com"
+    },
+    "jp.hadashikick.vcontainer": {
+      "version": "https://github.com/hadashiA/VContainer.git?path=VContainer/Assets/VContainer#1.8.0",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {
+        "com.unity.nuget.mono-cecil": "1.10.1"
+      },
+      "hash": "7f61287410eaebcba8183357df769594bc4cb857"
     },
     "com.unity.modules.ai": {
       "version": "1.0.0",
